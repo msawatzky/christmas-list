@@ -38,7 +38,7 @@ import { Router } from '@angular/router';
       justify-content: center;
       align-items: center;
       min-height: 100vh;
-      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      background: linear-gradient(135deg, #f8f9fa 0%, #e8f4f8 50%, #f0f8ff 100%);
       padding: 20px;
     }
     

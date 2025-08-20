@@ -3,8 +3,7 @@
   margin: 0 auto;
   padding: 20px;
   min-height: 100vh;
-  background: linear-gradient(135deg, #1a472a 0%, #2d5a3d 100%);
-  color: white;
+  color: #2c3e50;
 }
 
 .header {
@@ -13,14 +12,14 @@
   align-items: center;
   margin-bottom: 30px;
   padding: 20px 0;
-  border-bottom: 2px solid rgba(255, 255, 255, 0.2);
+  border-bottom: 2px solid rgba(44, 62, 80, 0.1);
 }
 
 .header h1 {
   margin: 0;
   font-size: 2.5rem;
   font-weight: bold;
-  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+  color: #2c3e50;
 }
 
 .user-info {
@@ -35,9 +34,9 @@
 }
 
 .btn-signout {
-  background: rgba(255, 255, 255, 0.1);
-  border: 1px solid rgba(255, 255, 255, 0.3);
-  color: white;
+  background: rgba(231, 76, 60, 0.1);
+  border: 1px solid rgba(231, 76, 60, 0.3);
+  color: #e74c3c;
   padding: 8px 16px;
   border-radius: 20px;
   cursor: pointer;
@@ -46,7 +45,7 @@
 }
 
 .btn-signout:hover {
-  background: rgba(255, 255, 255, 0.2);
+  background: rgba(231, 76, 60, 0.2);
   transform: translateY(-2px);
 }
 
@@ -57,9 +56,9 @@
 }
 
 .btn-nav {
-  background: rgba(255, 255, 255, 0.1);
-  border: 1px solid rgba(255, 255, 255, 0.3);
-  color: white;
+  background: rgba(52, 152, 219, 0.1);
+  border: 1px solid rgba(52, 152, 219, 0.3);
+  color: #3498db;
   padding: 10px 20px;
   border-radius: 20px;
   cursor: pointer;
@@ -68,7 +67,7 @@
 }
 
 .btn-nav:hover {
-  background: rgba(255, 255, 255, 0.2);
+  background: rgba(52, 152, 219, 0.2);
   transform: translateY(-2px);
 }
 
@@ -90,10 +89,11 @@
 }
 
 .user-list-section {
-  background: rgba(255, 255, 255, 0.05);
+  background: white;
   border-radius: 15px;
   padding: 30px;
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(44, 62, 80, 0.1);
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
 }
 
 .user-header {
@@ -108,16 +108,16 @@
 .user-header h2 {
   margin: 0;
   font-size: 1.8rem;
-  color: #ffd700;
-  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
+  color: #e74c3c;
 }
 
 .item-count {
   font-size: 1rem;
   opacity: 0.7;
-  background: rgba(255, 255, 255, 0.1);
+  background: rgba(231, 76, 60, 0.1);
   padding: 4px 12px;
   border-radius: 15px;
+  color: #e74c3c;
 }
 
 .items-grid {
@@ -127,17 +127,18 @@
 }
 
 .item-card {
-  background: rgba(255, 255, 255, 0.1);
-  border: 1px solid rgba(255, 255, 255, 0.2);
+  background: white;
+  border: 1px solid rgba(44, 62, 80, 0.1);
   border-radius: 12px;
   padding: 20px;
   transition: all 0.3s ease;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 }
 
 .item-card:hover {
   transform: translateY(-5px);
-  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
-  border-color: rgba(255, 215, 0, 0.5);
+  box-shadow: 0 10px 25px rgba(231, 76, 60, 0.2);
+  border-color: rgba(231, 76, 60, 0.3);
 }
 
 .item-card.purchased {
@@ -157,7 +158,7 @@
   margin: 0;
   font-size: 1.2rem;
   font-weight: 600;
-  color: #ffd700;
+  color: #e74c3c;
   flex: 1;
   margin-right: 10px;
 }
@@ -168,9 +169,9 @@
 }
 
 .btn-toggle {
-  background: rgba(255, 255, 255, 0.1);
-  border: 1px solid rgba(255, 255, 255, 0.3);
-  color: white;
+  background: rgba(52, 152, 219, 0.1);
+  border: 1px solid rgba(52, 152, 219, 0.3);
+  color: #3498db;
   width: 30px;
   height: 30px;
   border-radius: 50%;
@@ -183,14 +184,14 @@
 }
 
 .btn-toggle:hover:not(:disabled) {
-  background: rgba(255, 255, 255, 0.2);
+  background: rgba(52, 152, 219, 0.2);
   transform: scale(1.1);
 }
 
 .btn-toggle.purchased {
-  background: rgba(76, 175, 80, 0.3);
-  border-color: rgba(76, 175, 80, 0.5);
-  color: #4caf50;
+  background: rgba(39, 174, 96, 0.3);
+  border-color: rgba(39, 174, 96, 0.5);
+  color: #27ae60;
 }
 
 .btn-toggle:disabled {
