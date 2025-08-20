@@ -172,7 +172,7 @@ export class FamilyLoginComponent {
   selectUser(userId: string) {
     const result = this.authService.signIn(userId);
     if (result.success) {
-      this.router.navigate(['/list']);
+      this.router.navigate(['/choice']);
     }
   }
 }

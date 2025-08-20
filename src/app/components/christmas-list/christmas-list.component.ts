@@ -101,6 +101,14 @@ export class ChristmasListComponent implements OnInit {
     }
   }
 
+  goToChoice() {
+    this.router.navigate(['/choice']);
+  }
+
+  goToViewOthers() {
+    this.router.navigate(['/view-others']);
+  }
+
   onImageError(event: any) {
     // Hide the image if it fails to load
     event.target.style.display = 'none';

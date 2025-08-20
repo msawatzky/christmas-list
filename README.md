@@ -8,6 +8,8 @@ A beautiful, modern Christmas wish list application built with Angular 19 and Fi
 - **Wish List Management**: Add, edit, and delete items from your wish list
 - **Item Details**: Include name, description, price, and links to items
 - **Purchase Tracking**: Mark items as purchased and track who bought them
+- **Family List Viewing**: View other family members' wish lists
+- **User Choice Interface**: Choose between managing your list or viewing others' lists
 - **Real-time Updates**: Changes sync instantly across all devices
 - **Responsive Design**: Works perfectly on desktop, tablet, and mobile
 - **Modern UI**: Beautiful, intuitive interface with smooth animations
@@ -76,8 +78,10 @@ A beautiful, modern Christmas wish list application built with Angular 19 and Fi
 src/
 ├── app/
 │   ├── components/
-│   │   ├── login/              # Authentication component
-│   │   └── christmas-list/     # Main wish list component
+│   │   ├── family-login/       # Family member login component
+│   │   ├── user-choice/        # User choice interface
+│   │   ├── christmas-list/     # Main wish list component
+│   │   └── view-others/        # View other family lists component
 │   ├── services/
 │   │   ├── auth.service.ts     # Firebase authentication
 │   │   └── christmas-list.service.ts  # Firestore operations

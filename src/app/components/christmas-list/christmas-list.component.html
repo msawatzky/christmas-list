@@ -7,6 +7,11 @@
     </div>
   </header>
 
+  <div class="navigation-buttons">
+    <button (click)="goToChoice()" class="btn-nav">← Back to Menu</button>
+    <button (click)="goToViewOthers()" class="btn-nav">View Others' Lists</button>
+  </div>
+
   <div class="add-item-section">
     <h3>Add New Item</h3>
     <form (ngSubmit)="addItem()" #itemForm="ngForm" class="add-form">

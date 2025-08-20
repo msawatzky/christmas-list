@@ -1,0 +1,68 @@
+<div class="view-others-container">
+  <header class="header">
+    <h1>🎄 Family Christmas Lists</h1>
+    <div class="user-info">
+      <span>Welcome, {{ userEmail }}! 🎄</span>
+      <button (click)="signOut()" class="btn-signout">Switch User</button>
+    </div>
+  </header>
+
+  <div class="navigation-buttons">
+    <button (click)="goToChoice()" class="btn-nav">← Back to Menu</button>
+    <button (click)="goToMyList()" class="btn-nav">My List</button>
+  </div>
+
+  <div class="content">
+    <div *ngIf="loading" class="loading">
+      <p>Loading family lists... 🎁</p>
+    </div>
+
+    <div *ngIf="!loading && Object.keys(groupedItems).length === 0" class="empty-state">
+      <p>No family lists found yet! 🎄</p>
+      <p>Be the first to add items to your list!</p>
+    </div>
+
+    <div *ngIf="!loading && Object.keys(groupedItems).length > 0" class="lists-container">
+      <div *ngFor="let userId of Object.keys(groupedItems)" class="user-list-section">
+        <div class="user-header">
+          <h2>{{ groupedItems[userId].userName }}'s Wish List</h2>
+          <span class="item-count">({{ groupedItems[userId].items.length }} items)</span>
+        </div>
+
+        <div class="items-grid">
+          <div 
+            *ngFor="let item of groupedItems[userId].items" 
+            class="item-card"
+            [class.purchased]="item.purchased">
+            
+            <div class="item-header">
+              <h4>{{ item.name }}</h4>
+              <div class="item-actions">
+                <button 
+                  (click)="togglePurchased(item)" 
+                  class="btn-toggle"
+                  [class.purchased]="item.purchased"
+                  [disabled]="item.userId === userId">
+                  {{ item.purchased ? '✓' : '○' }}
+                </button>
+              </div>
+            </div>
+            
+            <div class="item-details">
+              <div class="item-meta">
+                <span *ngIf="item.store" class="store">{{ item.store }}</span>
+                <span *ngIf="item.price" class="price">${{ item.price | number:'1.2-2' }}</span>
+              </div>
+              <div *ngIf="item.picture" class="item-picture">
+                <img [src]="item.picture" [alt]="item.name" class="item-image" (error)="onImageError($event)">
+              </div>
+              <div *ngIf="item.purchased && item.purchasedBy" class="purchased-by">
+                Purchased by: {{ item.purchasedBy }}
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

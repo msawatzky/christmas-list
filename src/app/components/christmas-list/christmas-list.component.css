@@ -40,6 +40,28 @@ h1 {
   background: #c0392b;
 }
 
+.navigation-buttons {
+  display: flex;
+  gap: 15px;
+  margin-bottom: 30px;
+}
+
+.btn-nav {
+  background: rgba(52, 152, 219, 0.1);
+  border: 1px solid rgba(52, 152, 219, 0.3);
+  color: #3498db;
+  padding: 10px 20px;
+  border-radius: 20px;
+  cursor: pointer;
+  font-size: 0.9rem;
+  transition: all 0.3s ease;
+}
+
+.btn-nav:hover {
+  background: rgba(52, 152, 219, 0.2);
+  transform: translateY(-2px);
+}
+
 .add-item-section {
   background: white;
   padding: 2rem;
@@ -266,6 +288,10 @@ textarea.form-control {
         flex-direction: column;
         gap: 1rem;
         text-align: center;
+      }
+      
+      .navigation-buttons {
+        flex-direction: column;
       }
       
       .items-grid {

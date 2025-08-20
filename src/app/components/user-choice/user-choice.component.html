@@ -1,0 +1,29 @@
+<div class="choice-container">
+  <header class="header">
+    <h1>🎄 Christmas Wish List</h1>
+    <div class="user-info">
+      <span>Welcome, {{ userEmail }}! 🎄</span>
+      <button (click)="signOut()" class="btn-signout">Switch User</button>
+    </div>
+  </header>
+
+  <div class="choice-content">
+    <h2>What would you like to do?</h2>
+    
+    <div class="choice-cards">
+      <div class="choice-card" (click)="goToMyList()">
+        <div class="card-icon">📝</div>
+        <h3>Manage My List</h3>
+        <p>Add items to your wish list, mark items as purchased, or remove items.</p>
+        <button class="btn-primary">Go to My List</button>
+      </div>
+
+      <div class="choice-card" (click)="goToViewOthers()">
+        <div class="card-icon">👀</div>
+        <h3>View Others' Lists</h3>
+        <p>Browse and see what other family members have on their wish lists.</p>
+        <button class="btn-secondary">View Lists</button>
+      </div>
+    </div>
+  </div>
+</div>

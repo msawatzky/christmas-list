@@ -12,6 +12,7 @@ export interface ChristmasItem {
   purchased: boolean;
   purchasedBy?: string;
   userId: string;
+  userName?: string;
   createdAt: Date;
   updatedAt: Date;
 }
@@ -43,7 +44,7 @@ export class ChristmasListService {
     return collectionData(q, { idField: 'id' }) as Observable<ChristmasItem[]>;
   }
 
-  async addItem(item: Omit<ChristmasItem, 'id' | 'userId' | 'createdAt' | 'updatedAt'>): Promise<{ success: boolean; error?: string }> {
+  async addItem(item: Omit<ChristmasItem, 'id' | 'userId' | 'userName' | 'createdAt' | 'updatedAt'>): Promise<{ success: boolean; error?: string }> {
     try {
       const user = this.authService.getCurrentUser();
       if (!user) {
@@ -53,6 +54,7 @@ export class ChristmasListService {
       const newItem: Omit<ChristmasItem, 'id'> = {
         ...item,
         userId: user.id,
+        userName: user.name,
         createdAt: new Date(),
         updatedAt: new Date()
       };
@@ -89,5 +91,15 @@ export class ChristmasListService {
 
   async togglePurchased(itemId: string, purchased: boolean, purchasedBy?: string): Promise<{ success: boolean; error?: string }> {
     return this.updateItem(itemId, { purchased, purchasedBy });
+  }
+
+  getAllItems(): Observable<ChristmasItem[]> {
+    const itemsRef = collection(this.firestore, this.COLLECTION_NAME);
+    const q = query(
+      itemsRef,
+      orderBy('createdAt', 'desc')
+    );
+    
+    return collectionData(q, { idField: 'id' }) as Observable<ChristmasItem[]>;
   }
 }
