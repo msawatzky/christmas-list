@@ -2,8 +2,8 @@
   <header class="header">
     <h1>🎄 Christmas Wish List</h1>
     <div class="user-info">
-      <span>Welcome, {{ userEmail }}</span>
-      <button (click)="signOut()" class="btn-signout">Sign Out</button>
+      <span>Welcome, {{ userEmail }}! 🎄</span>
+      <button (click)="signOut()" class="btn-signout">Switch User</button>
     </div>
   </header>
 
@@ -12,7 +12,7 @@
     <form (ngSubmit)="addItem()" #itemForm="ngForm" class="add-form">
       <div class="form-row">
         <div class="form-group">
-          <label for="name">Item Name *</label>
+          <label for="name">Name *</label>
           <input 
             type="text" 
             id="name" 
@@ -22,6 +22,19 @@
             class="form-control"
             placeholder="What do you want for Christmas?">
         </div>
+        <div class="form-group">
+          <label for="store">Store</label>
+          <input 
+            type="text" 
+            id="store" 
+            name="store" 
+            [(ngModel)]="newItem.store" 
+            class="form-control"
+            placeholder="Where can I find this?">
+        </div>
+      </div>
+      
+      <div class="form-row">
         <div class="form-group">
           <label for="price">Price</label>
           <input 
@@ -34,29 +47,19 @@
             class="form-control"
             placeholder="0.00">
         </div>
+        <div class="form-group">
+          <label for="picture">Picture URL</label>
+          <input 
+            type="url" 
+            id="picture" 
+            name="picture" 
+            [(ngModel)]="newItem.picture" 
+            class="form-control"
+            placeholder="https://example.com/image.jpg">
+        </div>
       </div>
       
-      <div class="form-group">
-        <label for="description">Description</label>
-        <textarea 
-          id="description" 
-          name="description" 
-          [(ngModel)]="newItem.description" 
-          class="form-control"
-          placeholder="Add some details about this item..."
-          rows="3"></textarea>
-      </div>
-      
-      <div class="form-group">
-        <label for="url">Link (optional)</label>
-        <input 
-          type="url" 
-          id="url" 
-          name="url" 
-          [(ngModel)]="newItem.url" 
-          class="form-control"
-          placeholder="https://example.com">
-      </div>
+
       
       <button type="submit" [disabled]="loading || !itemForm.valid" class="btn-add">
         {{ loading ? 'Adding...' : 'Add Item' }}
@@ -87,10 +90,12 @@
         </div>
         
         <div class="item-details">
-          <p *ngIf="item.description" class="description">{{ item.description }}</p>
           <div class="item-meta">
+            <span *ngIf="item.store" class="store">{{ item.store }}</span>
             <span *ngIf="item.price" class="price">${{ item.price | number:'1.2-2' }}</span>
-            <a *ngIf="item.url" [href]="item.url" target="_blank" class="link">View Item</a>
+          </div>
+          <div *ngIf="item.picture" class="item-picture">
+            <img [src]="item.picture" [alt]="item.name" class="item-image" (error)="onImageError($event)">
           </div>
           <div *ngIf="item.purchased && item.purchasedBy" class="purchased-by">
             Purchased by: {{ item.purchasedBy }}

@@ -6,9 +6,9 @@ import { AuthService } from './auth.service';
 export interface ChristmasItem {
   id?: string;
   name: string;
-  description?: string;
+  store?: string;
   price?: number;
-  url?: string;
+  picture?: string;
   purchased: boolean;
   purchasedBy?: string;
   userId: string;
@@ -28,15 +28,15 @@ export class ChristmasListService {
   ) {}
 
   getItems(): Observable<ChristmasItem[]> {
-    const userId = this.authService.getCurrentUser()?.uid;
-    if (!userId) {
+    const user = this.authService.getCurrentUser();
+    if (!user) {
       return new Observable(subscriber => subscriber.next([]));
     }
 
     const itemsRef = collection(this.firestore, this.COLLECTION_NAME);
     const q = query(
       itemsRef,
-      where('userId', '==', userId),
+      where('userId', '==', user.id),
       orderBy('createdAt', 'desc')
     );
     
@@ -45,14 +45,14 @@ export class ChristmasListService {
 
   async addItem(item: Omit<ChristmasItem, 'id' | 'userId' | 'createdAt' | 'updatedAt'>): Promise<{ success: boolean; error?: string }> {
     try {
-      const userId = this.authService.getCurrentUser()?.uid;
-      if (!userId) {
+      const user = this.authService.getCurrentUser();
+      if (!user) {
         return { success: false, error: 'User not authenticated' };
       }
 
       const newItem: Omit<ChristmasItem, 'id'> = {
         ...item,
-        userId,
+        userId: user.id,
         createdAt: new Date(),
         updatedAt: new Date()
       };

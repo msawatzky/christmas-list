@@ -1,45 +1,67 @@
 import { Injectable } from '@angular/core';
-import { Auth, signInWithEmailAndPassword, createUserWithEmailAndPassword, signOut, user, User } from '@angular/fire/auth';
-import { Observable } from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
+
+export interface FamilyUser {
+  id: string;
+  name: string;
+  avatar?: string;
+}
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
-  user$: Observable<User | null>;
+  private currentUserSubject = new BehaviorSubject<FamilyUser | null>(null);
+  public currentUser$ = this.currentUserSubject.asObservable();
 
-  constructor(private auth: Auth) {
-    this.user$ = user(this.auth);
-  }
+  // Hard-coded family members
+  private familyMembers: FamilyUser[] = [
+    { id: 'grandpa', name: 'Grandpa', avatar: '👴' },
+    { id: 'mamere', name: 'MaMere', avatar: '👵' },
+    { id: 'matt', name: 'Matt', avatar: '👨' },
+    { id: 'nicole', name: 'Nicole', avatar: '👩' },
+    { id: 'nixon', name: 'Nixon', avatar: '👦' },
+    { id: 'theo', name: 'Theo', avatar: '👦' },
+    { id: 'baby', name: 'Baby', avatar: '👶' },
+    { id: 'kristen', name: 'Kristen', avatar: '👩' },
+    { id: 'garett', name: 'Garett', avatar: '👨' },
+    { id: 'nick', name: 'Nick', avatar: '👨' },
+    { id: 'shaley', name: 'Shaley', avatar: '👩' }
+  ];
 
-  async signIn(email: string, password: string) {
-    try {
-      const result = await signInWithEmailAndPassword(this.auth, email, password);
-      return { success: true, user: result.user };
-    } catch (error: any) {
-      return { success: false, error: error.message };
+  constructor() {
+    // Check if there's a saved user in localStorage
+    const savedUser = localStorage.getItem('currentUser');
+    if (savedUser) {
+      this.currentUserSubject.next(JSON.parse(savedUser));
     }
   }
 
-  async signUp(email: string, password: string) {
-    try {
-      const result = await createUserWithEmailAndPassword(this.auth, email, password);
-      return { success: true, user: result.user };
-    } catch (error: any) {
-      return { success: false, error: error.message };
-    }
+  getFamilyMembers(): FamilyUser[] {
+    return this.familyMembers;
   }
 
-  async signOut() {
-    try {
-      await signOut(this.auth);
-      return { success: true };
-    } catch (error: any) {
-      return { success: false, error: error.message };
+  signIn(userId: string): { success: boolean; user?: FamilyUser; error?: string } {
+    const user = this.familyMembers.find(member => member.id === userId);
+    if (user) {
+      this.currentUserSubject.next(user);
+      localStorage.setItem('currentUser', JSON.stringify(user));
+      return { success: true, user };
     }
+    return { success: false, error: 'User not found' };
   }
 
-  getCurrentUser(): User | null {
-    return this.auth.currentUser;
+  signOut(): { success: boolean; error?: string } {
+    this.currentUserSubject.next(null);
+    localStorage.removeItem('currentUser');
+    return { success: true };
+  }
+
+  getCurrentUser(): FamilyUser | null {
+    return this.currentUserSubject.value;
+  }
+
+  isAuthenticated(): boolean {
+    return this.currentUserSubject.value !== null;
   }
 }

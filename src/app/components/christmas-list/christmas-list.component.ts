@@ -16,9 +16,9 @@ export class ChristmasListComponent implements OnInit {
   items: ChristmasItem[] = [];
   newItem: Partial<ChristmasItem> = {
     name: '',
-    description: '',
+    store: '',
     price: undefined,
-    url: '',
+    picture: '',
     purchased: false
   };
   loading = false;
@@ -32,9 +32,9 @@ export class ChristmasListComponent implements OnInit {
 
   ngOnInit() {
     this.loadItems();
-    this.authService.user$.subscribe(user => {
+    this.authService.currentUser$.subscribe(user => {
       if (user) {
-        this.userEmail = user.email || '';
+        this.userEmail = user.name;
       } else {
         this.router.navigate(['/login']);
       }
@@ -53,18 +53,18 @@ export class ChristmasListComponent implements OnInit {
     this.loading = true;
     const result = await this.christmasListService.addItem({
       name: this.newItem.name.trim(),
-      description: this.newItem.description?.trim() || '',
+      store: this.newItem.store?.trim() || '',
       price: this.newItem.price || undefined,
-      url: this.newItem.url?.trim() || '',
+      picture: this.newItem.picture?.trim() || '',
       purchased: false
     });
 
     if (result.success) {
       this.newItem = {
         name: '',
-        description: '',
+        store: '',
         price: undefined,
-        url: '',
+        picture: '',
         purchased: false
       };
     } else {
@@ -99,5 +99,10 @@ export class ChristmasListComponent implements OnInit {
     if (result.success) {
       this.router.navigate(['/login']);
     }
+  }
+
+  onImageError(event: any) {
+    // Hide the image if it fails to load
+    event.target.style.display = 'none';
   }
 }
