@@ -1,6 +1,6 @@
 <div class="view-others-container">
   <header class="header">
-    <h1>🎄 Family Christmas Lists</h1>
+    <h1>🎄 Other Family Lists</h1>
     <div class="user-info">
       <span>Welcome, {{ userEmail }}! 🎄</span>
       <button (click)="signOut()" class="btn-signout">Switch User</button>
@@ -18,8 +18,9 @@
     </div>
 
     <div *ngIf="!loading && Object.keys(groupedItems).length === 0" class="empty-state">
-      <p>No family lists found yet! 🎄</p>
-      <p>Be the first to add items to your list!</p>
+      <p>No other family lists found yet! 🎄</p>
+      <p>Other family members haven't added items to their lists yet.</p>
+      <p>You can add items to your own list and come back later!</p>
     </div>
 
     <div *ngIf="!loading && Object.keys(groupedItems).length > 0" class="lists-container">
@@ -41,8 +42,7 @@
                 <button 
                   (click)="togglePurchased(item)" 
                   class="btn-toggle"
-                  [class.purchased]="item.purchased"
-                  [disabled]="item.userId === userId">
+                  [class.purchased]="item.purchased">
                   {{ item.purchased ? '✓' : '○' }}
                 </button>
               </div>

@@ -49,8 +49,14 @@ export class ViewOthersComponent implements OnInit {
 
   groupItemsByUser() {
     this.groupedItems = {};
+    const currentUser = this.authService.getCurrentUser();
     
     this.allItems.forEach(item => {
+      // Skip items belonging to the current user
+      if (item.userId === currentUser?.id) {
+        return;
+      }
+      
       if (!this.groupedItems[item.userId]) {
         this.groupedItems[item.userId] = {
           userName: item.userName || 'Unknown User',

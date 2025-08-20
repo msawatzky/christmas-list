@@ -78,18 +78,11 @@
     <div class="items-grid" *ngIf="items.length > 0; else emptyState">
       <div 
         *ngFor="let item of items" 
-        class="item-card"
-        [class.purchased]="item.purchased">
+        class="item-card">
         
         <div class="item-header">
           <h4>{{ item.name }}</h4>
           <div class="item-actions">
-            <button 
-              (click)="togglePurchased(item)" 
-              class="btn-toggle"
-              [class.purchased]="item.purchased">
-              {{ item.purchased ? '✓' : '○' }}
-            </button>
             <button (click)="deleteItem(item.id!)" class="btn-delete">×</button>
           </div>
         </div>
@@ -101,9 +94,6 @@
           </div>
           <div *ngIf="item.picture" class="item-picture">
             <img [src]="item.picture" [alt]="item.name" class="item-image" (error)="onImageError($event)">
-          </div>
-          <div *ngIf="item.purchased && item.purchasedBy" class="purchased-by">
-            Purchased by: {{ item.purchasedBy }}
           </div>
         </div>
       </div>

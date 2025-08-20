@@ -73,17 +73,7 @@ export class ChristmasListComponent implements OnInit {
     this.loading = false;
   }
 
-  async togglePurchased(item: ChristmasItem) {
-    const result = await this.christmasListService.togglePurchased(
-      item.id!,
-      !item.purchased,
-      item.purchased ? undefined : this.userEmail
-    );
-    
-    if (!result.success) {
-      console.error('Error toggling purchased status:', result.error);
-    }
-  }
+
 
   async deleteItem(itemId: string) {
     if (confirm('Are you sure you want to delete this item?')) {
