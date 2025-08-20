@@ -10,7 +10,7 @@ export interface ChristmasItem {
   price?: number;
   picture?: string;
   purchased: boolean;
-  purchasedBy?: string;
+  purchasedBy?: string | null;
   userId: string;
   userName?: string;
   createdAt: Date;
@@ -89,7 +89,7 @@ export class ChristmasListService {
     }
   }
 
-  async togglePurchased(itemId: string, purchased: boolean, purchasedBy?: string): Promise<{ success: boolean; error?: string }> {
+  async togglePurchased(itemId: string, purchased: boolean, purchasedBy?: string | null): Promise<{ success: boolean; error?: string }> {
     return this.updateItem(itemId, { purchased, purchasedBy });
   }
 

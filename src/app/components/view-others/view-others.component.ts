@@ -71,7 +71,7 @@ export class ViewOthersComponent implements OnInit {
     const result = await this.christmasListService.togglePurchased(
       item.id!,
       !item.purchased,
-      item.purchased ? undefined : this.userEmail
+      item.purchased ? null : this.userEmail
     );
     
     if (!result.success) {

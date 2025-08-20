@@ -1,6 +1,6 @@
 {
   "hosting": {
-    "public": "dist/christmas-list",
+    "public": "dist/christmas-list/browser",
     "ignore": [
       "firebase.json",
       "**/.*",
