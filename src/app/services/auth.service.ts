@@ -17,7 +17,7 @@ export class AuthService {
   // Hard-coded family members
   private familyMembers: FamilyUser[] = [
     { id: 'grandpa', name: 'Grandpa', avatar: '👴' },
-    { id: 'mamere', name: 'MaMere', avatar: '👵' },
+    { id: 'mamere', name: 'MeMere', avatar: '👵' },
     { id: 'matt', name: 'Matt', avatar: '👨' },
     { id: 'nicole', name: 'Nicole', avatar: '👩' },
     { id: 'nixon', name: 'Nixon', avatar: '👦' },

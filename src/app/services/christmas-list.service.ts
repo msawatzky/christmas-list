@@ -9,6 +9,7 @@ export interface ChristmasItem {
   store?: string;
   price?: number;
   picture?: string;
+  purchaseUrl?: string;
   purchased: boolean;
   purchasedBy?: string | null;
   userId: string;

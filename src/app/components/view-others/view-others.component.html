@@ -53,6 +53,11 @@
                 <span *ngIf="item.store" class="store">{{ item.store }}</span>
                 <span *ngIf="item.price" class="price">${{ item.price | number:'1.2-2' }}</span>
               </div>
+              <div *ngIf="item.purchaseUrl" class="purchase-link">
+                <a [href]="item.purchaseUrl" target="_blank" class="btn-buy">
+                  🛒 Buy Now
+                </a>
+              </div>
               <div *ngIf="item.picture" class="item-picture">
                 <img [src]="item.picture" [alt]="item.name" class="item-image" (error)="onImageError($event)">
               </div>

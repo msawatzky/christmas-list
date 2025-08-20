@@ -13,8 +13,8 @@
   </div>
 
   <div class="add-item-section">
-    <h3>Add New Item</h3>
-    <form (ngSubmit)="addItem()" #itemForm="ngForm" class="add-form">
+    <h3>{{ editingItem ? 'Edit Item' : 'Add New Item' }}</h3>
+    <form (ngSubmit)="editingItem ? saveEdit() : addItem()" #itemForm="ngForm" class="add-form">
       <div class="form-row">
         <div class="form-group">
           <label for="name">Name *</label>
@@ -22,7 +22,8 @@
             type="text" 
             id="name" 
             name="name" 
-            [(ngModel)]="newItem.name" 
+            [ngModel]="editingItem ? editingItem.name : newItem.name"
+            (ngModelChange)="editingItem ? editingItem.name = $event : newItem.name = $event"
             required 
             class="form-control"
             placeholder="What do you want for Christmas?">
@@ -33,7 +34,8 @@
             type="text" 
             id="store" 
             name="store" 
-            [(ngModel)]="newItem.store" 
+            [ngModel]="editingItem ? editingItem.store : newItem.store"
+            (ngModelChange)="editingItem ? editingItem.store = $event : newItem.store = $event"
             class="form-control"
             placeholder="Where can I find this?">
         </div>
@@ -46,29 +48,64 @@
             type="number" 
             id="price" 
             name="price" 
-            [(ngModel)]="newItem.price" 
+            [ngModel]="editingItem ? editingItem.price : newItem.price"
+            (ngModelChange)="editingItem ? editingItem.price = $event : newItem.price = $event"
             min="0" 
             step="0.01"
             class="form-control"
             placeholder="0.00">
         </div>
         <div class="form-group">
-          <label for="picture">Picture URL</label>
+          <label for="purchaseUrl">Purchase Link</label>
           <input 
             type="url" 
-            id="picture" 
-            name="picture" 
-            [(ngModel)]="newItem.picture" 
+            id="purchaseUrl" 
+            name="purchaseUrl" 
+            [ngModel]="editingItem ? editingItem.purchaseUrl : newItem.purchaseUrl"
+            (ngModelChange)="editingItem ? editingItem.purchaseUrl = $event : newItem.purchaseUrl = $event"
             class="form-control"
-            placeholder="https://example.com/image.jpg">
+            placeholder="https://amazon.com/product...">
         </div>
+      </div>
+      
+      <div class="form-group">
+        <label for="picture">Picture</label>
+        <div class="image-input-container">
+                      <input 
+              type="url" 
+              id="picture" 
+              name="picture" 
+              [ngModel]="editingItem ? editingItem.picture : newItem.picture"
+              (ngModelChange)="editingItem ? editingItem.picture = $event : newItem.picture = $event"
+              class="form-control"
+              placeholder="https://example.com/image.jpg">
+          <span class="or-divider">or</span>
+          <button 
+            type="button" 
+            (click)="triggerFileInput()" 
+            class="btn-upload"
+            [disabled]="loading">
+            {{ loading ? 'Uploading...' : 'Upload Image' }}
+          </button>
+        </div>
+        <input 
+          type="file" 
+          id="imageFile" 
+          accept="image/*" 
+          (change)="onFileSelected($event)" 
+          style="display: none;">
       </div>
       
 
       
-      <button type="submit" [disabled]="loading || !itemForm.valid" class="btn-add">
-        {{ loading ? 'Adding...' : 'Add Item' }}
-      </button>
+      <div class="form-actions">
+        <button type="submit" [disabled]="loading || !itemForm.valid" class="btn-add">
+          {{ loading ? 'Saving...' : (editingItem ? 'Save Changes' : 'Add Item') }}
+        </button>
+        <button *ngIf="editingItem" type="button" (click)="cancelEdit()" class="btn-cancel">
+          Cancel
+        </button>
+      </div>
     </form>
   </div>
 
@@ -83,6 +120,7 @@
         <div class="item-header">
           <h4>{{ item.name }}</h4>
           <div class="item-actions">
+            <button (click)="editItem(item)" class="btn-edit">✏️</button>
             <button (click)="deleteItem(item.id!)" class="btn-delete">×</button>
           </div>
         </div>
@@ -91,6 +129,11 @@
           <div class="item-meta">
             <span *ngIf="item.store" class="store">{{ item.store }}</span>
             <span *ngIf="item.price" class="price">${{ item.price | number:'1.2-2' }}</span>
+          </div>
+          <div *ngIf="item.purchaseUrl" class="purchase-link">
+            <a [href]="item.purchaseUrl" target="_blank" class="btn-buy">
+              🛒 Buy Now
+            </a>
           </div>
           <div *ngIf="item.picture" class="item-picture">
             <img [src]="item.picture" [alt]="item.name" class="item-image" (error)="onImageError($event)">

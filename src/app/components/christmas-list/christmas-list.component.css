@@ -279,6 +279,104 @@ textarea.form-control {
   font-size: 1.1rem;
 }
 
+.image-input-container {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.or-divider {
+  color: #666;
+  font-size: 0.9rem;
+  font-weight: 500;
+}
+
+.btn-upload {
+  background: #3498db;
+  color: white;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 6px;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: background-color 0.3s;
+  white-space: nowrap;
+}
+
+.btn-upload:hover:not(:disabled) {
+  background: #2980b9;
+}
+
+.btn-upload:disabled {
+  background: #bdc3c7;
+  cursor: not-allowed;
+}
+
+.purchase-link {
+  margin-top: 8px;
+}
+
+.btn-buy {
+  display: inline-block;
+  background: #27ae60;
+  color: white;
+  text-decoration: none;
+  padding: 6px 12px;
+  border-radius: 6px;
+  font-size: 0.85rem;
+  font-weight: 500;
+  transition: background-color 0.3s;
+}
+
+.btn-buy:hover {
+  background: #229954;
+  color: white;
+  text-decoration: none;
+}
+
+.form-actions {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+
+.btn-cancel {
+  padding: 0.75rem 1.5rem;
+  background: #95a5a6;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.btn-cancel:hover {
+  background: #7f8c8d;
+}
+
+.btn-edit {
+  width: 30px;
+  height: 30px;
+  border: 2px solid #f39c12;
+  background: white;
+  color: #f39c12;
+  border-radius: 50%;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1rem;
+  transition: all 0.3s;
+  margin-right: 5px;
+}
+
+.btn-edit:hover {
+  background: #f39c12;
+  color: white;
+}
+
     @media (max-width: 768px) {
       .form-row {
         grid-template-columns: 1fr;
@@ -300,5 +398,28 @@ textarea.form-control {
       
       .item-image {
         max-height: 150px;
+      }
+      
+      .image-input-container {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 8px;
+      }
+      
+      .or-divider {
+        text-align: center;
+      }
+      
+      .btn-upload {
+        width: 100%;
+      }
+      
+      .form-actions {
+        flex-direction: column;
+        gap: 8px;
+      }
+      
+      .btn-add, .btn-cancel {
+        width: 100%;
       }
     }

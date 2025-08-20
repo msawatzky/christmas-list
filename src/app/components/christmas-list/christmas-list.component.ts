@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { ChristmasListService, ChristmasItem } from '../../services/christmas-list.service';
 import { AuthService } from '../../services/auth.service';
+import { ImageUploadService } from '../../services/image-upload.service';
 import { Router } from '@angular/router';
 
 @Component({
@@ -19,14 +20,17 @@ export class ChristmasListComponent implements OnInit {
     store: '',
     price: undefined,
     picture: '',
+    purchaseUrl: '',
     purchased: false
   };
+  editingItem: ChristmasItem | null = null;
   loading = false;
   userEmail = '';
 
   constructor(
     private christmasListService: ChristmasListService,
     private authService: AuthService,
+    private imageUploadService: ImageUploadService,
     private router: Router
   ) {}
 
@@ -56,6 +60,7 @@ export class ChristmasListComponent implements OnInit {
       store: this.newItem.store?.trim() || '',
       price: this.newItem.price || undefined,
       picture: this.newItem.picture?.trim() || '',
+      purchaseUrl: this.newItem.purchaseUrl?.trim() || '',
       purchased: false
     });
 
@@ -65,6 +70,7 @@ export class ChristmasListComponent implements OnInit {
         store: '',
         price: undefined,
         picture: '',
+        purchaseUrl: '',
         purchased: false
       };
     } else {
@@ -102,5 +108,87 @@ export class ChristmasListComponent implements OnInit {
   onImageError(event: any) {
     // Hide the image if it fails to load
     event.target.style.display = 'none';
+  }
+
+  async onFileSelected(event: any) {
+    const file = event.target.files[0];
+    if (!file) return;
+
+    this.loading = true;
+    const result = await this.imageUploadService.uploadImage(file);
+    
+    if (result.success && result.url) {
+      if (this.editingItem) {
+        this.editingItem.picture = result.url;
+      } else {
+        this.newItem.picture = result.url;
+      }
+    } else {
+      console.error('Error uploading image:', result.error);
+      alert('Error uploading image: ' + result.error);
+    }
+    
+    this.loading = false;
+  }
+
+  triggerFileInput() {
+    const fileInput = document.getElementById('imageFile') as HTMLInputElement;
+    if (fileInput) {
+      fileInput.click();
+    }
+  }
+
+  editItem(item: ChristmasItem) {
+    this.editingItem = { ...item };
+    this.newItem = {
+      name: '',
+      store: '',
+      price: undefined,
+      picture: '',
+      purchaseUrl: '',
+      purchased: false
+    };
+  }
+
+  cancelEdit() {
+    this.editingItem = null;
+    this.newItem = {
+      name: '',
+      store: '',
+      price: undefined,
+      picture: '',
+      purchaseUrl: '',
+      purchased: false
+    };
+  }
+
+  async saveEdit() {
+    if (!this.editingItem || !this.editingItem.id) return;
+
+    this.loading = true;
+    const result = await this.christmasListService.updateItem(this.editingItem.id, {
+      name: this.editingItem.name,
+      store: this.editingItem.store || '',
+      price: this.editingItem.price,
+      picture: this.editingItem.picture || '',
+      purchaseUrl: this.editingItem.purchaseUrl || ''
+    });
+
+    if (result.success) {
+      this.editingItem = null;
+      this.newItem = {
+        name: '',
+        store: '',
+        price: undefined,
+        picture: '',
+        purchaseUrl: '',
+        purchased: false
+      };
+    } else {
+      console.error('Error updating item:', result.error);
+      alert('Error updating item: ' + result.error);
+    }
+    
+    this.loading = false;
   }
 }
