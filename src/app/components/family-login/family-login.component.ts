@@ -44,7 +44,7 @@ import { Router } from '@angular/router';
     
     .login-card {
       background: white;
-      padding: 2rem;
+      padding: 1rem;
       border-radius: 15px;
       box-shadow: 0 15px 35px rgba(0,0,0,0.1);
       width: 100%;
@@ -55,7 +55,7 @@ import { Router } from '@angular/router';
     h2 {
       color: #2c3e50;
       margin-bottom: 0.5rem;
-      font-size: 2rem;
+      font-size: 1.75rem;
     }
     
     .subtitle {
@@ -67,14 +67,14 @@ import { Router } from '@angular/router';
     .family-members {
       display: flex;
       flex-direction: column;
-      gap: 1rem;
-      margin-bottom: 2rem;
+      gap: 0.5rem;
+      margin-bottom: 1rem;
     }
     
     .member-card {
       display: flex;
       align-items: center;
-      padding: 1rem;
+      padding: 0.5rem;
       border: 2px solid #e8f4f8;
       border-radius: 10px;
       cursor: pointer;
