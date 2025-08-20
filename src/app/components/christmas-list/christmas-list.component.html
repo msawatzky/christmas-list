@@ -118,25 +118,27 @@
         class="item-card">
         
         <div class="item-header">
-          <h4>{{ item.name }}</h4>
+          <div class="item-title-section">
+            <h4 class="item-title">{{ item.name }}</h4>
+            <div class="item-meta">
+              <span *ngIf="item.store" class="store">{{ item.store }}</span>
+              <span *ngIf="item.price" class="price">${{ item.price | number:'1.2-2' }}</span>
+            </div>
+          </div>
           <div class="item-actions">
             <button (click)="editItem(item)" class="btn-edit">✏️</button>
             <button (click)="deleteItem(item.id!)" class="btn-delete">×</button>
           </div>
         </div>
         
-        <div class="item-details">
-          <div class="item-meta">
-            <span *ngIf="item.store" class="store">{{ item.store }}</span>
-            <span *ngIf="item.price" class="price">${{ item.price | number:'1.2-2' }}</span>
+        <div class="item-content">
+          <div *ngIf="item.picture" class="item-picture">
+            <img [src]="item.picture" [alt]="item.name" class="item-image" (error)="onImageError($event)">
           </div>
           <div *ngIf="item.purchaseUrl" class="purchase-link">
             <a [href]="item.purchaseUrl" target="_blank" class="btn-buy">
               🛒 Buy Now
             </a>
-          </div>
-          <div *ngIf="item.picture" class="item-picture">
-            <img [src]="item.picture" [alt]="item.name" class="item-image" (error)="onImageError($event)">
           </div>
         </div>
       </div>
