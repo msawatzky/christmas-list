@@ -97,15 +97,31 @@
               placeholder="0.00">
           </div>
           <div class="form-group">
-            <label for="picture">Picture URL</label>
+            <label for="picture">Picture</label>
+            <div class="image-input-container">
+              <input 
+                type="url" 
+                id="picture" 
+                name="picture" 
+                [ngModel]="editingItem ? editingItem.picture : newItem.picture"
+                (ngModelChange)="editingItem ? editingItem.picture = $event : newItem.picture = $event"
+                class="form-control"
+                placeholder="https://example.com/image.jpg">
+              <span class="or-divider">or</span>
+              <button 
+                type="button" 
+                (click)="triggerFileInput()" 
+                class="btn-upload"
+                [disabled]="uploading">
+                {{ uploading ? '🔄 Uploading...' : '📷 Upload Image' }}
+              </button>
+            </div>
             <input 
-              type="url" 
-              id="picture" 
-              name="picture" 
-              [ngModel]="editingItem ? editingItem.picture : newItem.picture"
-              (ngModelChange)="editingItem ? editingItem.picture = $event : newItem.picture = $event"
-              class="form-control"
-              placeholder="https://example.com/image.jpg">
+              type="file" 
+              id="imageFile" 
+              accept="image/*" 
+              (change)="onFileSelected($event)" 
+              style="display: none;">
           </div>
         </div>
       </div>

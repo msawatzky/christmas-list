@@ -469,14 +469,46 @@ textarea.form-control {
 
 
 
-.url-input-container {
+.url-input-container, .image-input-container {
   display: flex;
   gap: 10px;
   align-items: stretch;
 }
 
-.url-input-container .form-control {
+.url-input-container .form-control, .image-input-container .form-control {
   flex: 1;
+}
+
+.or-divider {
+  color: #6c757d;
+  font-size: 0.9rem;
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  padding: 0 5px;
+}
+
+.btn-upload {
+  background: #28a745;
+  color: white;
+  border: none;
+  padding: 0.5rem 1rem;
+  border-radius: 4px;
+  font-size: 0.9rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color 0.2s;
+  white-space: nowrap;
+  min-width: 140px;
+}
+
+.btn-upload:hover:not(:disabled) {
+  background: #218838;
+}
+
+.btn-upload:disabled {
+  background: #6c757d;
+  cursor: not-allowed;
 }
 
 .btn-fetch {
@@ -605,9 +637,19 @@ textarea.form-control {
         min-width: auto;
       }
       
-      .url-input-container {
+      .url-input-container, .image-input-container {
         flex-direction: column;
         gap: 8px;
+      }
+      
+      .or-divider {
+        text-align: center;
+        padding: 5px 0;
+      }
+      
+      .btn-upload {
+        width: 100%;
+        min-width: auto;
       }
       
       .btn-fetch {

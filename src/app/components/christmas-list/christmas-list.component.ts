@@ -4,6 +4,7 @@ import { FormsModule } from '@angular/forms';
 import { ChristmasListService, ChristmasItem } from '../../services/christmas-list.service';
 import { AuthService } from '../../services/auth.service';
 import { ProductScraperService, ScrapedProduct } from '../../services/product-scraper.service';
+import { CloudinaryService } from '../../services/cloudinary.service';
 
 import { Router } from '@angular/router';
 
@@ -27,12 +28,14 @@ export class ChristmasListComponent implements OnInit {
   editingItem: ChristmasItem | null = null;
   loading = false;
   scraping = false;
+  uploading = false;
   userEmail = '';
 
   constructor(
     private christmasListService: ChristmasListService,
     private authService: AuthService,
     private productScraperService: ProductScraperService,
+    private cloudinaryService: CloudinaryService,
     private router: Router
   ) {}
 
@@ -210,5 +213,40 @@ export class ChristmasListComponent implements OnInit {
   canFetchProductInfo(): boolean {
     const url = this.editingItem ? this.editingItem.purchaseUrl : this.newItem.purchaseUrl;
     return !!url && this.productScraperService.isValidProductUrl(url);
+  }
+
+  async onFileSelected(event: any) {
+    const file = event.target.files[0];
+    if (!file) return;
+
+    this.uploading = true;
+    
+    this.cloudinaryService.uploadImage(file).subscribe({
+      next: (result) => {
+        if (result.success && result.url) {
+          if (this.editingItem) {
+            this.editingItem.picture = result.url;
+          } else {
+            this.newItem.picture = result.url;
+          }
+        } else {
+          console.error('Error uploading image:', result.error);
+          alert('Error uploading image: ' + result.error);
+        }
+        this.uploading = false;
+      },
+      error: (error) => {
+        console.error('Upload error:', error);
+        alert('Error uploading image: ' + error.message);
+        this.uploading = false;
+      }
+    });
+  }
+
+  triggerFileInput() {
+    const fileInput = document.getElementById('imageFile') as HTMLInputElement;
+    if (fileInput) {
+      fileInput.click();
+    }
   }
 }
