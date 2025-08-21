@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { ChristmasListService, ChristmasItem } from '../../services/christmas-list.service';
 import { AuthService } from '../../services/auth.service';
-import { ImageUploadService } from '../../services/image-upload.service';
+
 import { Router } from '@angular/router';
 
 @Component({
@@ -30,7 +30,6 @@ export class ChristmasListComponent implements OnInit {
   constructor(
     private christmasListService: ChristmasListService,
     private authService: AuthService,
-    private imageUploadService: ImageUploadService,
     private router: Router
   ) {}
 
@@ -110,33 +109,7 @@ export class ChristmasListComponent implements OnInit {
     event.target.style.display = 'none';
   }
 
-  async onFileSelected(event: any) {
-    const file = event.target.files[0];
-    if (!file) return;
 
-    this.loading = true;
-    const result = await this.imageUploadService.uploadImage(file);
-    
-    if (result.success && result.url) {
-      if (this.editingItem) {
-        this.editingItem.picture = result.url;
-      } else {
-        this.newItem.picture = result.url;
-      }
-    } else {
-      console.error('Error uploading image:', result.error);
-      alert('Error uploading image: ' + result.error);
-    }
-    
-    this.loading = false;
-  }
-
-  triggerFileInput() {
-    const fileInput = document.getElementById('imageFile') as HTMLInputElement;
-    if (fileInput) {
-      fileInput.click();
-    }
-  }
 
   editItem(item: ChristmasItem) {
     this.editingItem = { ...item };

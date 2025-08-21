@@ -291,39 +291,7 @@ textarea.form-control {
   font-size: 1.1rem;
 }
 
-.image-input-container {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  flex-wrap: wrap;
-}
 
-.or-divider {
-  color: #666;
-  font-size: 0.9rem;
-  font-weight: 500;
-}
-
-.btn-upload {
-  background: #3498db;
-  color: white;
-  border: none;
-  padding: 8px 16px;
-  border-radius: 6px;
-  font-size: 0.9rem;
-  cursor: pointer;
-  transition: background-color 0.3s;
-  white-space: nowrap;
-}
-
-.btn-upload:hover:not(:disabled) {
-  background: #2980b9;
-}
-
-.btn-upload:disabled {
-  background: #bdc3c7;
-  cursor: not-allowed;
-}
 
 .purchase-link {
   margin-top: auto;
@@ -413,19 +381,7 @@ textarea.form-control {
         max-height: 150px;
       }
       
-      .image-input-container {
-        flex-direction: column;
-        align-items: stretch;
-        gap: 8px;
-      }
-      
-      .or-divider {
-        text-align: center;
-      }
-      
-      .btn-upload {
-        width: 100%;
-      }
+
       
       .form-actions {
         flex-direction: column;
