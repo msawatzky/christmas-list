@@ -293,6 +293,40 @@ textarea.form-control {
 
 
 
+.url-input-container {
+  display: flex;
+  gap: 10px;
+  align-items: stretch;
+}
+
+.url-input-container .form-control {
+  flex: 1;
+}
+
+.btn-fetch {
+  background: #9b59b6;
+  color: white;
+  border: none;
+  padding: 0.75rem 1rem;
+  border-radius: 5px;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: all 0.3s;
+  white-space: nowrap;
+  min-width: 120px;
+}
+
+.btn-fetch:hover:not(:disabled) {
+  background: #8e44ad;
+  transform: translateY(-1px);
+}
+
+.btn-fetch:disabled {
+  background: #bdc3c7;
+  cursor: not-allowed;
+  transform: none;
+}
+
 .purchase-link {
   margin-top: auto;
   text-align: center;
@@ -381,7 +415,14 @@ textarea.form-control {
         max-height: 150px;
       }
       
-
+      .url-input-container {
+        flex-direction: column;
+        gap: 8px;
+      }
+      
+      .btn-fetch {
+        width: 100%;
+      }
       
       .form-actions {
         flex-direction: column;

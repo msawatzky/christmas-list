@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { ChristmasListService, ChristmasItem } from '../../services/christmas-list.service';
 import { AuthService } from '../../services/auth.service';
+import { ProductScraperService, ScrapedProduct } from '../../services/product-scraper.service';
 
 import { Router } from '@angular/router';
 
@@ -25,11 +26,13 @@ export class ChristmasListComponent implements OnInit {
   };
   editingItem: ChristmasItem | null = null;
   loading = false;
+  scraping = false;
   userEmail = '';
 
   constructor(
     private christmasListService: ChristmasListService,
     private authService: AuthService,
+    private productScraperService: ProductScraperService,
     private router: Router
   ) {}
 
@@ -163,5 +166,51 @@ export class ChristmasListComponent implements OnInit {
     }
     
     this.loading = false;
+  }
+
+  async fetchProductInfo() {
+    const url = this.editingItem ? this.editingItem.purchaseUrl : this.newItem.purchaseUrl;
+    
+    if (!url || !this.productScraperService.isValidProductUrl(url)) {
+      alert('Please enter a valid product URL from a supported store (Amazon, eBay, Walmart, etc.)');
+      return;
+    }
+
+    this.scraping = true;
+    
+    this.productScraperService.scrapeProduct(url).subscribe({
+      next: (product: ScrapedProduct) => {
+        if (product.success) {
+          if (this.editingItem) {
+            this.editingItem.name = product.name || this.editingItem.name;
+            this.editingItem.price = product.price || this.editingItem.price;
+            this.editingItem.picture = product.imageUrl || this.editingItem.picture;
+            this.editingItem.store = product.store || this.editingItem.store;
+          } else {
+            this.newItem.name = product.name || this.newItem.name;
+            this.newItem.price = product.price || this.newItem.price;
+            this.newItem.picture = product.imageUrl || this.newItem.picture;
+            this.newItem.store = product.store || this.newItem.store;
+          }
+          
+          if (product.name) {
+            alert(`✅ Successfully fetched product info!\n\nName: ${product.name}\nPrice: ${product.price ? '$' + product.price : 'Not found'}\nStore: ${product.store || 'Unknown'}`);
+          }
+        } else {
+          alert('❌ Failed to fetch product information: ' + (product.error || 'Unknown error'));
+        }
+        this.scraping = false;
+      },
+      error: (error) => {
+        console.error('Scraping error:', error);
+        alert('❌ Error fetching product information: ' + error.message);
+        this.scraping = false;
+      }
+    });
+  }
+
+  canFetchProductInfo(): boolean {
+    const url = this.editingItem ? this.editingItem.purchaseUrl : this.newItem.purchaseUrl;
+    return !!url && this.productScraperService.isValidProductUrl(url);
   }
 }

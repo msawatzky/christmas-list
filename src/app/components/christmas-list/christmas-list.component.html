@@ -57,14 +57,24 @@
         </div>
         <div class="form-group">
           <label for="purchaseUrl">Purchase Link</label>
-          <input 
-            type="url" 
-            id="purchaseUrl" 
-            name="purchaseUrl" 
-            [ngModel]="editingItem ? editingItem.purchaseUrl : newItem.purchaseUrl"
-            (ngModelChange)="editingItem ? editingItem.purchaseUrl = $event : newItem.purchaseUrl = $event"
-            class="form-control"
-            placeholder="https://amazon.com/product...">
+          <div class="url-input-container">
+            <input 
+              type="url" 
+              id="purchaseUrl" 
+              name="purchaseUrl" 
+              [ngModel]="editingItem ? editingItem.purchaseUrl : newItem.purchaseUrl"
+              (ngModelChange)="editingItem ? editingItem.purchaseUrl = $event : newItem.purchaseUrl = $event"
+              class="form-control"
+              placeholder="https://amazon.com/product...">
+            <button 
+              type="button" 
+              (click)="fetchProductInfo()" 
+              [disabled]="!canFetchProductInfo() || scraping"
+              class="btn-fetch"
+              title="Fetch product info from URL">
+              {{ scraping ? '🔄 Fetching...' : '🔍 Fetch Info' }}
+            </button>
+          </div>
         </div>
       </div>
       
