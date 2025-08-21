@@ -145,6 +145,16 @@ export class ProductScraperService {
       if (hostname.includes('overstock')) return 'Overstock';
       if (hostname.includes('newegg')) return 'Newegg';
       if (hostname.includes('b&h') || hostname.includes('bhphotovideo')) return 'B&H';
+      if (hostname.includes('canadiantire')) return 'Canadian Tire';
+      if (hostname.includes('canadacomputers')) return 'Canada Computers';
+      if (hostname.includes('staples')) return 'Staples';
+      if (hostname.includes('indigo') || hostname.includes('chapters')) return 'Indigo';
+      if (hostname.includes('toysrus') || hostname.includes('toys r us')) return 'Toys "R" Us';
+      if (hostname.includes('sportchek') || hostname.includes('sport chek')) return 'Sport Chek';
+      if (hostname.includes('marks')) return 'Marks';
+      if (hostname.includes('winners')) return 'Winners';
+      if (hostname.includes('marshalls')) return 'Marshalls';
+      if (hostname.includes('homesense') || hostname.includes('home sense')) return 'HomeSense';
       
       // For shortened URLs, return "Unknown Store"
       const shortenedUrls = ['bit.ly', 'tinyurl.com', 'goo.gl', 'ow.ly', 't.co', 'short.link', 'rebrand.ly'];
@@ -162,23 +172,9 @@ export class ProductScraperService {
 
   isValidProductUrl(url: string): boolean {
     try {
-      const urlObj = new URL(url);
-      const hostname = urlObj.hostname.toLowerCase();
-      
-      // Check if it's a known e-commerce site or shortened URL
-      const ecommerceSites = [
-        'amazon', 'ebay', 'walmart', 'target', 'bestbuy', 
-        'homedepot', 'lowes', 'etsy', 'shopify', 'bigcommerce'
-      ];
-      
-      // Check for shortened URLs
-      const shortenedUrls = [
-        'a.co', 'amzn.to', 'bit.ly', 'tinyurl.com', 'goo.gl', 
-        'ow.ly', 't.co', 'short.link', 'rebrand.ly'
-      ];
-      
-      return ecommerceSites.some(site => hostname.includes(site)) || 
-             shortenedUrls.some(shortened => hostname.includes(shortened));
+      // Just check if it's a valid URL
+      new URL(url);
+      return true;
     } catch {
       return false;
     }

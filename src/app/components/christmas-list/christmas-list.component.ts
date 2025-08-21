@@ -172,7 +172,7 @@ export class ChristmasListComponent implements OnInit {
     const url = this.editingItem ? this.editingItem.purchaseUrl : this.newItem.purchaseUrl;
     
     if (!url || !this.productScraperService.isValidProductUrl(url)) {
-      alert('Please enter a valid product URL from a supported store (Amazon, eBay, Walmart, etc.)');
+      alert('Please enter a valid URL');
       return;
     }
 

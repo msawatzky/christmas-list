@@ -27,48 +27,10 @@
   <div class="add-item-section">
     <h3>{{ editingItem ? 'Edit Item' : 'Add New Item' }}</h3>
     <form (ngSubmit)="editingItem ? saveEdit() : addItem()" #itemForm="ngForm" class="add-form">
-      <div class="form-row">
+      <!-- Fetch Product Info Section - Prominent at the top -->
+      <div class="fetch-section">
         <div class="form-group">
-          <label for="name">Name *</label>
-          <input 
-            type="text" 
-            id="name" 
-            name="name" 
-            [ngModel]="editingItem ? editingItem.name : newItem.name"
-            (ngModelChange)="editingItem ? editingItem.name = $event : newItem.name = $event"
-            required 
-            class="form-control"
-            placeholder="What do you want for Christmas?">
-        </div>
-        <div class="form-group">
-          <label for="store">Store</label>
-          <input 
-            type="text" 
-            id="store" 
-            name="store" 
-            [ngModel]="editingItem ? editingItem.store : newItem.store"
-            (ngModelChange)="editingItem ? editingItem.store = $event : newItem.store = $event"
-            class="form-control"
-            placeholder="Where can I find this?">
-        </div>
-      </div>
-      
-      <div class="form-row">
-        <div class="form-group">
-          <label for="price">Price</label>
-          <input 
-            type="number" 
-            id="price" 
-            name="price" 
-            [ngModel]="editingItem ? editingItem.price : newItem.price"
-            (ngModelChange)="editingItem ? editingItem.price = $event : newItem.price = $event"
-            min="0" 
-            step="0.01"
-            class="form-control"
-            placeholder="0.00">
-        </div>
-        <div class="form-group">
-          <label for="purchaseUrl">Purchase Link</label>
+          <label for="purchaseUrl">Product URL</label>
           <div class="url-input-container">
             <input 
               type="url" 
@@ -77,15 +39,73 @@
               [ngModel]="editingItem ? editingItem.purchaseUrl : newItem.purchaseUrl"
               (ngModelChange)="editingItem ? editingItem.purchaseUrl = $event : newItem.purchaseUrl = $event"
               class="form-control"
-              placeholder="https://amazon.com/product...">
+              placeholder="Paste a product URL from Amazon, eBay, Walmart, etc...">
             <button 
               type="button" 
               (click)="fetchProductInfo()" 
               [disabled]="!canFetchProductInfo() || scraping"
-              class="btn-fetch"
+              class="btn-fetch-prominent"
               title="Fetch product info from URL">
-              {{ scraping ? '🔄 Fetching...' : '🔍 Fetch Info' }}
+              {{ scraping ? '🔄 Fetching...' : '🔍 Auto-Fill Product Info' }}
             </button>
+          </div>
+          <div class="fetch-hint">Paste a product URL and click "Auto-Fill" to populate the form automatically.</div>
+        </div>
+      </div>
+
+      <!-- Manual Entry Section -->
+      <div class="manual-entry-section">
+        <h4>Or fill in manually:</h4>
+        <div class="form-row">
+          <div class="form-group">
+            <label for="name">Name *</label>
+            <input 
+              type="text" 
+              id="name" 
+              name="name" 
+              [ngModel]="editingItem ? editingItem.name : newItem.name"
+              (ngModelChange)="editingItem ? editingItem.name = $event : newItem.name = $event"
+              required 
+              class="form-control"
+              placeholder="What do you want for Christmas?">
+          </div>
+          <div class="form-group">
+            <label for="store">Store</label>
+            <input 
+              type="text" 
+              id="store" 
+              name="store" 
+              [ngModel]="editingItem ? editingItem.store : newItem.store"
+              (ngModelChange)="editingItem ? editingItem.store = $event : newItem.store = $event"
+              class="form-control"
+              placeholder="Where can I find this?">
+          </div>
+        </div>
+        
+        <div class="form-row">
+          <div class="form-group">
+            <label for="price">Price</label>
+            <input 
+              type="number" 
+              id="price" 
+              name="price" 
+              [ngModel]="editingItem ? editingItem.price : newItem.price"
+              (ngModelChange)="editingItem ? editingItem.price = $event : newItem.price = $event"
+              min="0" 
+              step="0.01"
+              class="form-control"
+              placeholder="0.00">
+          </div>
+          <div class="form-group">
+            <label for="picture">Picture URL</label>
+            <input 
+              type="url" 
+              id="picture" 
+              name="picture" 
+              [ngModel]="editingItem ? editingItem.picture : newItem.picture"
+              (ngModelChange)="editingItem ? editingItem.picture = $event : newItem.picture = $event"
+              class="form-control"
+              placeholder="https://example.com/image.jpg">
           </div>
         </div>
       </div>
