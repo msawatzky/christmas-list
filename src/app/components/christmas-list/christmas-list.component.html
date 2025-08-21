@@ -30,14 +30,13 @@
       <!-- Fetch Product Info Section - Prominent at the top -->
       <div class="fetch-section">
         <div class="form-group">
-          <label for="purchaseUrl">Product URL</label>
+          <label for="fetchUrl">Product URL for Auto-Fill</label>
           <div class="url-input-container">
             <input 
               type="url" 
-              id="purchaseUrl" 
-              name="purchaseUrl" 
-              [ngModel]="editingItem ? editingItem.purchaseUrl : newItem.purchaseUrl"
-              (ngModelChange)="editingItem ? editingItem.purchaseUrl = $event : newItem.purchaseUrl = $event"
+              id="fetchUrl" 
+              name="fetchUrl" 
+              [(ngModel)]="fetchUrl"
               class="form-control"
               placeholder="Paste a product URL from Amazon, eBay, Walmart, etc...">
             <button 
@@ -97,45 +96,76 @@
               placeholder="0.00">
           </div>
           <div class="form-group">
-            <label for="picture">Picture</label>
-            <div class="image-input-container">
-              <input 
-                type="url" 
-                id="picture" 
-                name="picture" 
-                [ngModel]="editingItem ? editingItem.picture : newItem.picture"
-                (ngModelChange)="editingItem ? editingItem.picture = $event : newItem.picture = $event"
-                class="form-control"
-                placeholder="https://example.com/image.jpg">
-              <span class="or-divider">or</span>
-              <button 
-                type="button" 
-                (click)="triggerFileInput()" 
-                class="btn-upload"
-                [disabled]="uploading">
-                {{ uploading ? '🔄 Uploading...' : '📷 Upload Image' }}
-              </button>
-            </div>
+            <label for="purchaseLink">Purchase Link</label>
             <input 
-              type="file" 
-              id="imageFile" 
-              accept="image/*" 
-              (change)="onFileSelected($event)" 
-              style="display: none;">
+              type="url" 
+              id="purchaseLink" 
+              name="purchaseLink" 
+              [ngModel]="editingItem ? editingItem.purchaseUrl : newItem.purchaseUrl"
+              (ngModelChange)="editingItem ? editingItem.purchaseUrl = $event : newItem.purchaseUrl = $event"
+              class="form-control"
+              placeholder="https://amazon.com/product...">
           </div>
         </div>
-      </div>
-      
-      <div class="form-group">
-        <label for="picture">Picture URL</label>
-        <input 
-          type="url" 
-          id="picture" 
-          name="picture" 
-          [ngModel]="editingItem ? editingItem.picture : newItem.picture"
-          (ngModelChange)="editingItem ? editingItem.picture = $event : newItem.picture = $event"
-          class="form-control"
-          placeholder="https://example.com/image.jpg">
+        
+        <div class="form-group">
+          <label for="description">Description</label>
+          <textarea 
+            id="description" 
+            name="description" 
+            [ngModel]="editingItem ? editingItem.description : newItem.description"
+            (ngModelChange)="editingItem ? editingItem.description = $event : newItem.description = $event"
+            class="form-control"
+            rows="3"
+            placeholder="Add any additional details, notes, or preferences..."></textarea>
+        </div>
+        
+        <div class="form-group">
+          <label for="picture">Picture</label>
+          
+          <!-- Show image preview if picture exists -->
+          <div *ngIf="(editingItem ? editingItem.picture : newItem.picture)" class="image-preview-container">
+            <div class="image-preview">
+              <img [src]="editingItem ? editingItem.picture : newItem.picture" 
+                   [alt]="editingItem ? editingItem.name : newItem.name" 
+                   class="preview-image"
+                   (error)="onImageError($event)">
+              <button 
+                type="button" 
+                (click)="removePicture()" 
+                class="btn-remove-image"
+                title="Remove image">
+                ×
+              </button>
+            </div>
+          </div>
+          
+          <!-- Show input/upload options only if no picture -->
+          <div *ngIf="!(editingItem ? editingItem.picture : newItem.picture)" class="image-input-container">
+            <input 
+              type="url" 
+              id="picture" 
+              name="picture" 
+              [ngModel]="editingItem ? editingItem.picture : newItem.picture"
+              (ngModelChange)="editingItem ? editingItem.picture = $event : newItem.picture = $event"
+              class="form-control"
+              placeholder="https://example.com/image.jpg">
+            <span class="or-divider">or</span>
+            <button 
+              type="button" 
+              (click)="triggerFileInput()" 
+              class="btn-upload"
+              [disabled]="uploading">
+              {{ uploading ? '🔄 Uploading...' : '📷 Upload Image' }}
+            </button>
+          </div>
+          <input 
+            type="file" 
+            id="imageFile" 
+            accept="image/*" 
+            (change)="onFileSelected($event)" 
+            style="display: none;">
+        </div>
       </div>
       
 
@@ -176,6 +206,9 @@
         <div class="item-content">
           <div *ngIf="item.picture" class="item-picture">
             <img [src]="item.picture" [alt]="item.name" class="item-image" (error)="onImageError($event)">
+          </div>
+          <div *ngIf="item.description" class="item-description">
+            <p class="description-text">{{ item.description }}</p>
           </div>
           <div *ngIf="item.purchaseUrl" class="purchase-link">
             <a [href]="item.purchaseUrl" target="_blank" class="btn-buy">

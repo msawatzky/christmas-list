@@ -10,6 +10,7 @@ export interface ChristmasItem {
   price?: number;
   picture?: string;
   purchaseUrl?: string;
+  description?: string;
   purchased: boolean;
   purchasedBy?: string | null;
   userId: string;

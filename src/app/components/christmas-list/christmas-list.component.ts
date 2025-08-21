@@ -23,6 +23,7 @@ export class ChristmasListComponent implements OnInit {
     price: undefined,
     picture: '',
     purchaseUrl: '',
+    description: '',
     purchased: false
   };
   editingItem: ChristmasItem | null = null;
@@ -30,6 +31,7 @@ export class ChristmasListComponent implements OnInit {
   scraping = false;
   uploading = false;
   userEmail = '';
+  fetchUrl = '';
 
   constructor(
     private christmasListService: ChristmasListService,
@@ -66,6 +68,7 @@ export class ChristmasListComponent implements OnInit {
       price: this.newItem.price || undefined,
       picture: this.newItem.picture?.trim() || '',
       purchaseUrl: this.newItem.purchaseUrl?.trim() || '',
+      description: this.newItem.description?.trim() || '',
       purchased: false
     });
 
@@ -76,6 +79,7 @@ export class ChristmasListComponent implements OnInit {
         price: undefined,
         picture: '',
         purchaseUrl: '',
+        description: '',
         purchased: false
       };
     } else {
@@ -125,6 +129,7 @@ export class ChristmasListComponent implements OnInit {
       price: undefined,
       picture: '',
       purchaseUrl: '',
+      description: '',
       purchased: false
     };
   }
@@ -137,6 +142,7 @@ export class ChristmasListComponent implements OnInit {
       price: undefined,
       picture: '',
       purchaseUrl: '',
+      description: '',
       purchased: false
     };
   }
@@ -150,7 +156,8 @@ export class ChristmasListComponent implements OnInit {
       store: this.editingItem.store || '',
       price: this.editingItem.price,
       picture: this.editingItem.picture || '',
-      purchaseUrl: this.editingItem.purchaseUrl || ''
+      purchaseUrl: this.editingItem.purchaseUrl || '',
+      description: this.editingItem.description || ''
     });
 
     if (result.success) {
@@ -161,6 +168,7 @@ export class ChristmasListComponent implements OnInit {
         price: undefined,
         picture: '',
         purchaseUrl: '',
+        description: '',
         purchased: false
       };
     } else {
@@ -172,29 +180,29 @@ export class ChristmasListComponent implements OnInit {
   }
 
   async fetchProductInfo() {
-    const url = this.editingItem ? this.editingItem.purchaseUrl : this.newItem.purchaseUrl;
-    
-    if (!url || !this.productScraperService.isValidProductUrl(url)) {
+    if (!this.fetchUrl || !this.productScraperService.isValidProductUrl(this.fetchUrl)) {
       alert('Please enter a valid URL');
       return;
     }
 
     this.scraping = true;
     
-    this.productScraperService.scrapeProduct(url).subscribe({
-      next: (product: ScrapedProduct) => {
-        if (product.success) {
-          if (this.editingItem) {
-            this.editingItem.name = product.name || this.editingItem.name;
-            this.editingItem.price = product.price || this.editingItem.price;
-            this.editingItem.picture = product.imageUrl || this.editingItem.picture;
-            this.editingItem.store = product.store || this.editingItem.store;
-          } else {
-            this.newItem.name = product.name || this.newItem.name;
-            this.newItem.price = product.price || this.newItem.price;
-            this.newItem.picture = product.imageUrl || this.newItem.picture;
-            this.newItem.store = product.store || this.newItem.store;
-          }
+    this.productScraperService.scrapeProduct(this.fetchUrl).subscribe({
+              next: (product: ScrapedProduct) => {
+          if (product.success) {
+            if (this.editingItem) {
+              this.editingItem.name = product.name || this.editingItem.name;
+              this.editingItem.price = product.price || this.editingItem.price;
+              this.editingItem.picture = product.imageUrl || this.editingItem.picture;
+              this.editingItem.store = product.store || this.editingItem.store;
+              this.editingItem.purchaseUrl = this.fetchUrl; // Set purchase link to fetch URL
+            } else {
+              this.newItem.name = product.name || this.newItem.name;
+              this.newItem.price = product.price || this.newItem.price;
+              this.newItem.picture = product.imageUrl || this.newItem.picture;
+              this.newItem.store = product.store || this.newItem.store;
+              this.newItem.purchaseUrl = this.fetchUrl; // Set purchase link to fetch URL
+            }
           
 
         } else {
@@ -211,8 +219,7 @@ export class ChristmasListComponent implements OnInit {
   }
 
   canFetchProductInfo(): boolean {
-    const url = this.editingItem ? this.editingItem.purchaseUrl : this.newItem.purchaseUrl;
-    return !!url && this.productScraperService.isValidProductUrl(url);
+    return !!this.fetchUrl && this.productScraperService.isValidProductUrl(this.fetchUrl);
   }
 
   async onFileSelected(event: any) {
@@ -247,6 +254,19 @@ export class ChristmasListComponent implements OnInit {
     const fileInput = document.getElementById('imageFile') as HTMLInputElement;
     if (fileInput) {
       fileInput.click();
+    }
+  }
+
+  removePicture() {
+    if (this.editingItem) {
+      this.editingItem.picture = '';
+    } else {
+      this.newItem.picture = '';
+    }
+    // Clear the file input as well
+    const fileInput = document.getElementById('imageFile') as HTMLInputElement;
+    if (fileInput) {
+      fileInput.value = '';
     }
   }
 }

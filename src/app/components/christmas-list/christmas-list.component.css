@@ -422,6 +422,18 @@ textarea.form-control {
   line-height: 1.4;
 }
 
+.item-description {
+  margin: 8px 0;
+}
+
+.description-text {
+  color: #666;
+  margin: 0;
+  line-height: 1.4;
+  font-size: 0.9rem;
+  font-style: italic;
+}
+
     .item-meta {
       display: flex;
       flex-wrap: wrap;
@@ -509,6 +521,55 @@ textarea.form-control {
 .btn-upload:disabled {
   background: #6c757d;
   cursor: not-allowed;
+}
+
+/* Image Preview Styles */
+.image-preview-container {
+  margin-top: 8px;
+}
+
+.image-preview {
+  position: relative;
+  display: inline-block;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  border: 2px solid #e8f4f8;
+  background: white;
+}
+
+.preview-image {
+  display: block;
+  max-width: 200px;
+  max-height: 200px;
+  width: auto;
+  height: auto;
+  object-fit: cover;
+}
+
+.btn-remove-image {
+  position: absolute;
+  top: 6px;
+  right: 6px;
+  background: rgba(220, 53, 69, 0.9);
+  color: white;
+  border: none;
+  border-radius: 50%;
+  width: 24px;
+  height: 24px;
+  font-size: 16px;
+  font-weight: bold;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+}
+
+.btn-remove-image:hover {
+  background: rgba(220, 53, 69, 1);
+  transform: scale(1.1);
 }
 
 .btn-fetch {
@@ -663,5 +724,10 @@ textarea.form-control {
       
       .btn-add, .btn-cancel {
         width: 100%;
+      }
+      
+      .preview-image {
+        max-width: 150px;
+        max-height: 150px;
       }
     }
