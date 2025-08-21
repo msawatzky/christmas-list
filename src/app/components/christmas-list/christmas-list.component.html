@@ -98,7 +98,7 @@
           <div class="form-group">
             <label for="purchaseLink">Purchase Link</label>
             <input 
-              type="url" 
+              type="text" 
               id="purchaseLink" 
               name="purchaseLink" 
               [ngModel]="editingItem ? editingItem.purchaseUrl : newItem.purchaseUrl"
@@ -143,7 +143,7 @@
           <!-- Show input/upload options only if no picture -->
           <div *ngIf="!(editingItem ? editingItem.picture : newItem.picture)" class="image-input-container">
             <input 
-              type="url" 
+              type="text" 
               id="picture" 
               name="picture" 
               [ngModel]="editingItem ? editingItem.picture : newItem.picture"
@@ -171,7 +171,7 @@
 
       
       <div class="form-actions">
-        <button type="submit" [disabled]="loading || !itemForm.valid" class="btn-add">
+        <button type="submit" [disabled]="loading || !isFormValid()" class="btn-add">
           {{ loading ? 'Saving...' : (editingItem ? 'Save Changes' : 'Add Item') }}
         </button>
         <button *ngIf="editingItem" type="button" (click)="cancelEdit()" class="btn-cancel">

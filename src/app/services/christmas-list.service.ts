@@ -7,7 +7,7 @@ export interface ChristmasItem {
   id?: string;
   name: string;
   store?: string;
-  price?: number;
+  price?: number | null;
   picture?: string;
   purchaseUrl?: string;
   description?: string;

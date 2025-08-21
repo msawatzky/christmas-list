@@ -20,7 +20,7 @@ export class ChristmasListComponent implements OnInit {
   newItem: Partial<ChristmasItem> = {
     name: '',
     store: '',
-    price: undefined,
+    price: null,
     picture: '',
     purchaseUrl: '',
     description: '',
@@ -65,7 +65,7 @@ export class ChristmasListComponent implements OnInit {
     const result = await this.christmasListService.addItem({
       name: this.newItem.name.trim(),
       store: this.newItem.store?.trim() || '',
-      price: this.newItem.price || undefined,
+      price: this.newItem.price || null,
       picture: this.newItem.picture?.trim() || '',
       purchaseUrl: this.newItem.purchaseUrl?.trim() || '',
       description: this.newItem.description?.trim() || '',
@@ -76,7 +76,7 @@ export class ChristmasListComponent implements OnInit {
       this.newItem = {
         name: '',
         store: '',
-        price: undefined,
+        price: null,
         picture: '',
         purchaseUrl: '',
         description: '',
@@ -126,7 +126,7 @@ export class ChristmasListComponent implements OnInit {
     this.newItem = {
       name: '',
       store: '',
-      price: undefined,
+      price: null,
       picture: '',
       purchaseUrl: '',
       description: '',
@@ -139,7 +139,7 @@ export class ChristmasListComponent implements OnInit {
     this.newItem = {
       name: '',
       store: '',
-      price: undefined,
+      price: null,
       picture: '',
       purchaseUrl: '',
       description: '',
@@ -165,7 +165,7 @@ export class ChristmasListComponent implements OnInit {
       this.newItem = {
         name: '',
         store: '',
-        price: undefined,
+        price: null,
         picture: '',
         purchaseUrl: '',
         description: '',
@@ -220,6 +220,11 @@ export class ChristmasListComponent implements OnInit {
 
   canFetchProductInfo(): boolean {
     return !!this.fetchUrl && this.productScraperService.isValidProductUrl(this.fetchUrl);
+  }
+
+  isFormValid(): boolean {
+    const name = this.editingItem ? this.editingItem.name : this.newItem.name;
+    return !!name && name.trim().length > 0;
   }
 
   async onFileSelected(event: any) {
