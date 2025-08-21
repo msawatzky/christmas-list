@@ -193,9 +193,7 @@ export class ChristmasListComponent implements OnInit {
             this.newItem.store = product.store || this.newItem.store;
           }
           
-          if (product.name) {
-            alert(`✅ Successfully fetched product info!\n\nName: ${product.name}\nPrice: ${product.price ? '$' + product.price : 'Not found'}\nStore: ${product.store || 'Unknown'}`);
-          }
+
         } else {
           alert('❌ Failed to fetch product information: ' + (product.error || 'Unknown error'));
         }

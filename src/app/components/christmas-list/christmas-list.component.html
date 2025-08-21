@@ -1,4 +1,16 @@
 <div class="list-container">
+  <!-- Loading Overlay -->
+  <div *ngIf="scraping" class="loading-overlay">
+    <div class="loading-content">
+      <div class="spinner">
+        <div class="spinner-ring"></div>
+        <div class="spinner-ring"></div>
+        <div class="spinner-ring"></div>
+        <div class="spinner-ring"></div>
+      </div>
+      <div class="loading-text">Summoning the elves…</div>
+    </div>
+  </div>
   <header class="header">
     <h1>🎄 Christmas Wish List</h1>
     <div class="user-info">

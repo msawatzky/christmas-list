@@ -35,7 +35,8 @@ export class ProductScraperService {
         name: "Extract the product name or title",
         price: "Extract the product price as a number",
         imageUrl: "Extract the main product image URL",
-        description: "Extract a brief product description"
+        description: "Extract a brief product description",
+        storeName: "Extract the store or website name (e.g., Amazon, eBay, Walmart, Target, etc.)"
       }),
       render_js: 'false',
       premium_proxy: 'false'
@@ -58,7 +59,7 @@ export class ProductScraperService {
           price: this.extractPrice(response.price),
           imageUrl: this.cleanImageUrl(response.imageUrl, url),
           description: this.cleanText(response.description),
-          store: this.extractStoreName(url),
+          store: this.cleanText(response.storeName) || this.extractStoreName(url),
           success: true
         };
       }),
@@ -122,6 +123,11 @@ export class ProductScraperService {
       const urlObj = new URL(url);
       const hostname = urlObj.hostname.toLowerCase();
       
+      // Handle Amazon shortened URLs
+      if (hostname.includes('a.co') || hostname.includes('amzn.to')) {
+        return 'Amazon';
+      }
+      
       // Extract store name from common domains
       if (hostname.includes('amazon')) return 'Amazon';
       if (hostname.includes('ebay')) return 'eBay';
@@ -131,9 +137,24 @@ export class ProductScraperService {
       if (hostname.includes('homedepot')) return 'Home Depot';
       if (hostname.includes('lowes')) return 'Lowe\'s';
       if (hostname.includes('etsy')) return 'Etsy';
+      if (hostname.includes('costco')) return 'Costco';
+      if (hostname.includes('macys')) return 'Macy\'s';
+      if (hostname.includes('nordstrom')) return 'Nordstrom';
+      if (hostname.includes('kohls')) return 'Kohl\'s';
+      if (hostname.includes('wayfair')) return 'Wayfair';
+      if (hostname.includes('overstock')) return 'Overstock';
+      if (hostname.includes('newegg')) return 'Newegg';
+      if (hostname.includes('b&h') || hostname.includes('bhphotovideo')) return 'B&H';
       
-      // Return the domain name as fallback
-      return hostname.replace('www.', '').split('.')[0];
+      // For shortened URLs, return "Unknown Store"
+      const shortenedUrls = ['bit.ly', 'tinyurl.com', 'goo.gl', 'ow.ly', 't.co', 'short.link', 'rebrand.ly'];
+      if (shortenedUrls.some(shortened => hostname.includes(shortened))) {
+        return 'Unknown Store';
+      }
+      
+      // Return the domain name as fallback, capitalized
+      const domain = hostname.replace('www.', '').split('.')[0];
+      return domain.charAt(0).toUpperCase() + domain.slice(1);
     } catch {
       return '';
     }
@@ -144,13 +165,20 @@ export class ProductScraperService {
       const urlObj = new URL(url);
       const hostname = urlObj.hostname.toLowerCase();
       
-      // Check if it's a known e-commerce site
+      // Check if it's a known e-commerce site or shortened URL
       const ecommerceSites = [
         'amazon', 'ebay', 'walmart', 'target', 'bestbuy', 
         'homedepot', 'lowes', 'etsy', 'shopify', 'bigcommerce'
       ];
       
-      return ecommerceSites.some(site => hostname.includes(site));
+      // Check for shortened URLs
+      const shortenedUrls = [
+        'a.co', 'amzn.to', 'bit.ly', 'tinyurl.com', 'goo.gl', 
+        'ow.ly', 't.co', 'short.link', 'rebrand.ly'
+      ];
+      
+      return ecommerceSites.some(site => hostname.includes(site)) || 
+             shortenedUrls.some(shortened => hostname.includes(shortened));
     } catch {
       return false;
     }
