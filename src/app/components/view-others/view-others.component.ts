@@ -97,4 +97,33 @@ export class ViewOthersComponent implements OnInit {
   onImageError(event: any) {
     event.target.style.display = 'none';
   }
+
+  // Skip to specific person's list
+  skipToPerson(userId: string) {
+    const element = document.getElementById(`user-list-${userId}`);
+    if (element) {
+      element.scrollIntoView({ 
+        behavior: 'smooth', 
+        block: 'start' 
+      });
+    }
+  }
+
+  // Handle select change event
+  onSkipToChange(event: Event) {
+    const target = event.target as HTMLSelectElement;
+    if (target.value) {
+      this.skipToPerson(target.value);
+      target.value = ''; // Reset the select
+    }
+  }
+
+  // Get list of available people for skip-to dropdown
+  getPeopleList(): { userId: string; userName: string; itemCount: number }[] {
+    return Object.keys(this.groupedItems).map(userId => ({
+      userId,
+      userName: this.groupedItems[userId].userName,
+      itemCount: this.groupedItems[userId].items.length
+    })).sort((a, b) => a.userName.localeCompare(b.userName));
+  }
 }

@@ -12,6 +12,22 @@
     <button (click)="goToMyList()" class="btn-nav">My List</button>
   </div>
 
+  <!-- Skip to Person Section -->
+  <div *ngIf="!loading && Object.keys(groupedItems).length > 1" class="skip-to-section">
+    <label for="skipToSelect">Skip to:</label>
+    <select 
+      id="skipToSelect" 
+      class="skip-to-select"
+      (change)="onSkipToChange($event)">
+      <option value="" disabled selected>Choose a person...</option>
+      <option 
+        *ngFor="let person of getPeopleList()" 
+        [value]="person.userId">
+        {{ person.userName }} ({{ person.itemCount }} items)
+      </option>
+    </select>
+  </div>
+
   <div class="content">
     <div *ngIf="loading" class="loading">
       <p>Loading family lists... 🎁</p>
@@ -24,7 +40,9 @@
     </div>
 
     <div *ngIf="!loading && Object.keys(groupedItems).length > 0" class="lists-container">
-      <div *ngFor="let userId of Object.keys(groupedItems)" class="user-list-section">
+      <div *ngFor="let userId of Object.keys(groupedItems)" 
+           [id]="'user-list-' + userId"
+           class="user-list-section">
         <div class="user-header">
           <h2>{{ groupedItems[userId].userName }}'s Wish List</h2>
           <span class="item-count">({{ groupedItems[userId].items.length }} items)</span>
