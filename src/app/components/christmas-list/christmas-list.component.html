@@ -206,42 +206,20 @@
         *ngFor="let item of items" 
         class="item-card">
         
-        <div class="item-header">
-          <div class="item-title-section">
-            <div class="priority-display">
-              <span class="priority-number">#{{ item.priority || '?' }}</span>
-            </div>
-            <h4 class="item-title">{{ item.name }}</h4>
-            <div class="item-meta">
-              <span *ngIf="item.store" class="store">{{ item.store }}</span>
-              <span *ngIf="item.price" class="price">${{ item.price | number:'1.2-2' }}</span>
-            </div>
-          </div>
-          <div class="item-actions">
-            <div class="priority-controls">
-              <button 
-                (click)="changePriority(item.id!, 'up')" 
-                class="btn-priority"
-                title="Move up in priority"
-                [disabled]="loading">
-                ↑
-              </button>
-              <button 
-                (click)="changePriority(item.id!, 'down')" 
-                class="btn-priority"
-                title="Move down in priority"
-                [disabled]="loading">
-                ↓
-              </button>
-            </div>
-            <button (click)="editItem(item)" class="btn-edit">✏️</button>
-            <button (click)="deleteItem(item.id!)" class="btn-delete">×</button>
-          </div>
+        <!-- Column 1: Image -->
+        <div *ngIf="item.picture" class="item-picture">
+          <img [src]="item.picture" [alt]="item.name" class="item-image" (error)="onImageError($event)">
         </div>
         
+        <!-- Column 2: Content -->
         <div class="item-content">
-          <div *ngIf="item.picture" class="item-picture">
-            <img [src]="item.picture" [alt]="item.name" class="item-image" (error)="onImageError($event)">
+          <div class="priority-display">
+            <span class="priority-number">#{{ item.priority || '?' }}</span>
+          </div>
+          <h4 class="item-title">{{ item.name }}</h4>
+          <div class="item-meta">
+            <span *ngIf="item.store" class="store">{{ item.store }}</span>
+            <span *ngIf="item.price" class="price">${{ item.price | number:'1.2-2' }}</span>
           </div>
           <div *ngIf="item.description" class="item-description">
             <p class="description-text">{{ item.description }}</p>
@@ -251,6 +229,28 @@
               🛒 Buy Now
             </a>
           </div>
+        </div>
+        
+        <!-- Column 3: Actions -->
+        <div class="item-actions">
+          <div class="priority-controls">
+            <button 
+              (click)="changePriority(item.id!, 'up')" 
+              class="btn-priority"
+              title="Move up in priority"
+              [disabled]="loading">
+              ↑
+            </button>
+            <button 
+              (click)="changePriority(item.id!, 'down')" 
+              class="btn-priority"
+              title="Move down in priority"
+              [disabled]="loading">
+              ↓
+            </button>
+          </div>
+          <button (click)="editItem(item)" class="btn-edit">✏️</button>
+          <button (click)="deleteItem(item.id!)" class="btn-delete">×</button>
         </div>
       </div>
     </div>

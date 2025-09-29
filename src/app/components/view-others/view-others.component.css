@@ -122,20 +122,22 @@
 
 .items-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
-  gap: 10px;
+  grid-template-columns: repeat(auto-fill, minmax(400px, 1fr));
+  gap: 1rem;
 }
 
 .item-card {
   background: white;
-  border: 1px solid rgba(44, 62, 80, 0.1);
+  border: 2px solid rgba(44, 62, 80, 0.1);
   border-radius: 8px;
-  padding: 12px;
+  padding: 1rem;
   transition: all 0.3s ease;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
   display: flex;
-  flex-direction: column;
-  height: 100%;
+  flex-direction: row;
+  height: auto;
+  min-height: 120px;
+  align-items: center;
 }
 
 .item-card:hover {
@@ -150,18 +152,7 @@
   border-color: rgba(76, 175, 80, 0.3);
 }
 
-.item-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: flex-start;
-  margin-bottom: 12px;
-  flex-shrink: 0;
-}
-
-.item-title-section {
-  flex: 1;
-  margin-right: 10px;
-}
+/* Removed .item-header and .item-title-section - no longer needed */
 
 .item-title {
   margin: 0 0 8px 0;
@@ -174,6 +165,8 @@
 .item-actions {
   display: flex;
   gap: 8px;
+  align-items: center;
+  flex-shrink: 0;
 }
 
 .btn-toggle {
@@ -236,18 +229,24 @@
 .item-content {
   display: flex;
   flex-direction: column;
-  gap: 12px;
+  gap: 0.5rem;
   flex: 1;
+  min-width: 0;
 }
 
 .item-picture {
-  text-align: center;
-  order: -1;
+  flex-shrink: 0;
+  width: 100px;
+  height: 100px;
+  margin-right: 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .item-image {
   width: 100%;
-  height: 150px;
+  height: 100%;
   object-fit: cover;
   border-radius: 8px;
   border: 1px solid rgba(255, 255, 255, 0.2);
@@ -313,6 +312,32 @@
   }
   
   .item-card {
-    padding: 15px;
+    padding: 0.75rem;
+    min-height: 100px;
+  }
+  
+  .item-picture {
+    width: 80px;
+    height: 80px;
+    margin-right: 0.75rem;
+  }
+  
+  .item-title {
+    font-size: 1rem;
+    margin-bottom: 0.25rem;
+  }
+  
+  .item-meta {
+    gap: 4px;
+  }
+  
+  .store, .price {
+    font-size: 0.8rem;
+  }
+  
+  .btn-toggle {
+    width: 24px;
+    height: 24px;
+    font-size: 0.8rem;
   }
 }
