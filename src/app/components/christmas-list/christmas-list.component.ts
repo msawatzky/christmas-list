@@ -24,8 +24,7 @@ export class ChristmasListComponent implements OnInit {
     picture: '',
     purchaseUrl: '',
     description: '',
-    purchased: false,
-    priority: 1
+    purchased: false
   };
   editingItem: ChristmasItem | null = null;
   loading = false;
@@ -63,6 +62,12 @@ export class ChristmasListComponent implements OnInit {
     if (!this.newItem.name?.trim()) return;
 
     this.loading = true;
+    
+    // Calculate the next priority (highest current priority + 1)
+    const nextPriority = this.items.length > 0 
+      ? Math.max(...this.items.map(item => item.priority || 0)) + 1 
+      : 1;
+    
     const result = await this.christmasListService.addItem({
       name: this.newItem.name.trim(),
       store: this.newItem.store?.trim() || '',
@@ -71,7 +76,7 @@ export class ChristmasListComponent implements OnInit {
       purchaseUrl: this.newItem.purchaseUrl?.trim() || '',
       description: this.newItem.description?.trim() || '',
       purchased: false,
-      priority: this.newItem.priority || 1
+      priority: nextPriority
     });
 
     if (result.success) {
@@ -82,8 +87,7 @@ export class ChristmasListComponent implements OnInit {
         picture: '',
         purchaseUrl: '',
         description: '',
-        purchased: false,
-        priority: 1
+        purchased: false
       };
     } else {
       console.error('Error adding item:', result.error);
@@ -133,8 +137,7 @@ export class ChristmasListComponent implements OnInit {
       picture: '',
       purchaseUrl: '',
       description: '',
-      purchased: false,
-      priority: 1
+      purchased: false
     };
     
     // Scroll to the edit item section
@@ -155,8 +158,7 @@ export class ChristmasListComponent implements OnInit {
       picture: '',
       purchaseUrl: '',
       description: '',
-      purchased: false,
-      priority: 1
+      purchased: false
     };
   }
 
@@ -182,8 +184,7 @@ export class ChristmasListComponent implements OnInit {
         picture: '',
         purchaseUrl: '',
         description: '',
-        purchased: false,
-        priority: 1
+        purchased: false
       };
     } else {
       console.error('Error updating item:', result.error);

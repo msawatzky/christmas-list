@@ -351,6 +351,21 @@ textarea.form-control {
   background: #f8f9fa;
 }
 
+.priority-corner {
+  position: absolute;
+  top: 8px;
+  left: 8px;
+  background: #007bff;
+  color: white;
+  font-size: 0.7rem;
+  font-weight: bold;
+  padding: 3px 6px;
+  border-radius: 8px;
+  z-index: 10;
+  min-width: 20px;
+  text-align: center;
+}
+
 /* Removed .item-header and .item-title-section - no longer needed */
 
 .item-title {
@@ -750,22 +765,7 @@ textarea.form-control {
     }
 
 /* Priority Styling */
-.priority-display {
-  display: flex;
-  align-items: center;
-  margin-bottom: 0.5rem;
-}
 
-.priority-number {
-  background: #007bff;
-  color: white;
-  padding: 0.25rem 0.5rem;
-  border-radius: 12px;
-  font-size: 0.75rem;
-  font-weight: 600;
-  min-width: 2rem;
-  text-align: center;
-}
 
 .priority-controls {
   display: flex;
@@ -775,31 +775,31 @@ textarea.form-control {
 }
 
 .btn-priority {
-  background: #f8f9fa;
-  border: 1px solid #dee2e6;
-  color: #495057;
+  background: #007bff;
+  border: 1px solid #007bff;
+  color: white;
   padding: 0.25rem 0.5rem;
-  border-radius: 4px;
+  border-radius: 50%;
   font-size: 0.875rem;
   font-weight: bold;
   cursor: pointer;
   transition: all 0.2s;
   min-width: 2rem;
-  height: 1.5rem;
+  height: 2rem;
   display: flex;
   align-items: center;
   justify-content: center;
 }
 
 .btn-priority:hover:not(:disabled) {
-  background: #e9ecef;
-  border-color: #adb5bd;
-  color: #007bff;
+  background: #0056b3;
+  border-color: #0056b3;
 }
 
 .btn-priority:disabled {
-  background: #f8f9fa;
-  color: #6c757d;
+  background: #6c757d;
+  border-color: #6c757d;
+  color: white;
   cursor: not-allowed;
   opacity: 0.6;
 }
@@ -846,7 +846,7 @@ textarea.form-control {
   
   .btn-priority {
     min-width: 1.5rem;
-    height: 1.25rem;
+    height: 1.5rem;
     font-size: 0.7rem;
   }
   
@@ -854,5 +854,13 @@ textarea.form-control {
     width: 24px;
     height: 24px;
     font-size: 0.8rem;
+  }
+  
+  .priority-corner {
+    top: 6px;
+    left: 6px;
+    font-size: 0.6rem;
+    padding: 2px 4px;
+    min-width: 18px;
   }
 }

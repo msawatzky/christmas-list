@@ -81,23 +81,6 @@
           </div>
         </div>
         
-        <div class="form-row">
-          <div class="form-group">
-            <label for="priority">Priority</label>
-            <input 
-              type="number" 
-              id="priority" 
-              name="priority" 
-              [ngModel]="editingItem ? (editingItem.priority || 1) : newItem.priority"
-              (ngModelChange)="editingItem ? editingItem.priority = $event : newItem.priority = $event"
-              min="1" 
-              class="form-control"
-              placeholder="1">
-          </div>
-          <div class="form-group">
-            <!-- Empty div for spacing -->
-          </div>
-        </div>
         
         <div class="form-row">
           <div class="form-group">
@@ -206,6 +189,9 @@
         *ngFor="let item of items" 
         class="item-card">
         
+        <!-- Priority Number - Top Left Corner -->
+        <div class="priority-corner">#{{ item.priority || '?' }}</div>
+        
         <!-- Column 1: Image -->
         <div *ngIf="item.picture" class="item-picture">
           <img [src]="item.picture" [alt]="item.name" class="item-image" (error)="onImageError($event)">
@@ -213,9 +199,6 @@
         
         <!-- Column 2: Content -->
         <div class="item-content">
-          <div class="priority-display">
-            <span class="priority-number">#{{ item.priority || '?' }}</span>
-          </div>
           <h4 class="item-title">{{ item.name }}</h4>
           <div class="item-meta">
             <span *ngIf="item.store" class="store">{{ item.store }}</span>

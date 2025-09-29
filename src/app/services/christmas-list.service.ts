@@ -63,13 +63,9 @@ export class ChristmasListService {
         return { success: false, error: 'User not authenticated' };
       }
 
-      // Get the current highest priority and add 1
-      const items = await this.getItems().pipe(take(1)).toPromise() || [];
-      const maxPriority = items.length > 0 ? Math.max(...items.map(item => item.priority || 0)) : 0;
-
       const newItem: Omit<ChristmasItem, 'id'> = {
         ...item,
-        priority: item.priority || (maxPriority + 1),
+        priority: item.priority || 1,
         userId: user.id,
         userName: user.name,
         createdAt: new Date(),
