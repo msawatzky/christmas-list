@@ -22,9 +22,10 @@ export class AuthService {
     { id: 'nicole', name: 'Nicole', avatar: '👩' },
     { id: 'nixon', name: 'Nixon', avatar: '👦' },
     { id: 'theo', name: 'Theo', avatar: '👦' },
-    { id: 'baby', name: 'Baby', avatar: '👶' },
+    { id: 'baby-sawatzky', name: 'Baby Sawatzky', avatar: '👶' },
     { id: 'kristen', name: 'Kristen', avatar: '👩' },
     { id: 'garett', name: 'Garett', avatar: '👨' },
+    { id: 'baby-minarz', name: 'Baby Minarz', avatar: '👶' },
     { id: 'nick', name: 'Nick', avatar: '👨' },
     { id: 'shaley', name: 'Shaley', avatar: '👩' }
   ];
