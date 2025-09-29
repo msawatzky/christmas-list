@@ -13,7 +13,9 @@
   </div>
 
   <!-- Skip to Person Section -->
-  <div *ngIf="!loading && Object.keys(groupedItems).length > 1" class="skip-to-section">
+  <div *ngIf="!loading && Object.keys(groupedItems).length > 1" 
+       #skipToSection
+       class="skip-to-section">
     <label for="skipToSelect">Skip to:</label>
     <select 
       id="skipToSelect" 

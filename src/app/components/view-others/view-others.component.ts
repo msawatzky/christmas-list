@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, AfterViewInit, OnDestroy, ElementRef, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
@@ -12,7 +12,7 @@ import { Observable } from 'rxjs';
   templateUrl: './view-others.component.html',
   styleUrl: './view-others.component.css'
 })
-export class ViewOthersComponent implements OnInit {
+export class ViewOthersComponent implements OnInit, AfterViewInit, OnDestroy {
   allItems: ChristmasItem[] = [];
   groupedItems: { [userId: string]: { userName: string; items: ChristmasItem[] } } = {};
   loading = false;
@@ -20,6 +20,9 @@ export class ViewOthersComponent implements OnInit {
   
   // Make Object available in template
   Object = Object;
+  
+  @ViewChild('skipToSection', { static: false }) skipToSection!: ElementRef;
+  private scrollObserver?: IntersectionObserver;
 
   constructor(
     private authService: AuthService,
@@ -36,6 +39,19 @@ export class ViewOthersComponent implements OnInit {
         this.router.navigate(['/login']);
       }
     });
+  }
+
+  ngAfterViewInit() {
+    // Set up intersection observer for sticky behavior
+    if (this.skipToSection) {
+      this.setupStickyObserver();
+    }
+  }
+
+  ngOnDestroy() {
+    if (this.scrollObserver) {
+      this.scrollObserver.disconnect();
+    }
   }
 
   loadAllItems() {
@@ -102,9 +118,16 @@ export class ViewOthersComponent implements OnInit {
   skipToPerson(userId: string) {
     const element = document.getElementById(`user-list-${userId}`);
     if (element) {
-      element.scrollIntoView({ 
-        behavior: 'smooth', 
-        block: 'start' 
+      // Get the height of the sticky skip-to section
+      const skipToHeight = this.skipToSection ? this.skipToSection.nativeElement.offsetHeight : 80;
+      
+      // Calculate the position with offset
+      const elementPosition = element.offsetTop;
+      const offsetPosition = elementPosition - skipToHeight - 20; // Extra 20px padding
+      
+      window.scrollTo({
+        top: offsetPosition,
+        behavior: 'smooth'
       });
     }
   }
@@ -125,5 +148,34 @@ export class ViewOthersComponent implements OnInit {
       userName: this.groupedItems[userId].userName,
       itemCount: this.groupedItems[userId].items.length
     })).sort((a, b) => a.userName.localeCompare(b.userName));
+  }
+
+  private setupStickyObserver() {
+    if (!this.skipToSection) return;
+
+    // Create a placeholder element to observe
+    const placeholder = document.createElement('div');
+    placeholder.style.height = '1px';
+    this.skipToSection.nativeElement.parentNode.insertBefore(placeholder, this.skipToSection.nativeElement);
+
+    this.scrollObserver = new IntersectionObserver(
+      (entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            // Element is visible, remove sticky class
+            this.skipToSection.nativeElement.classList.remove('is-sticky');
+          } else {
+            // Element is not visible, add sticky class
+            this.skipToSection.nativeElement.classList.add('is-sticky');
+          }
+        });
+      },
+      {
+        rootMargin: '0px 0px 0px 0px',
+        threshold: 0
+      }
+    );
+
+    this.scrollObserver.observe(placeholder);
   }
 }
