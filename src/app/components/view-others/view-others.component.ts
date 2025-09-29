@@ -17,6 +17,7 @@ export class ViewOthersComponent implements OnInit, AfterViewInit, OnDestroy {
   groupedItems: { [userId: string]: { userName: string; items: ChristmasItem[] } } = {};
   loading = false;
   userEmail = '';
+  selectedImage: { src: string; alt: string } | null = null;
   
   // Make Object available in template
   Object = Object;
@@ -112,6 +113,18 @@ export class ViewOthersComponent implements OnInit, AfterViewInit, OnDestroy {
 
   onImageError(event: any) {
     event.target.style.display = 'none';
+  }
+
+  openImageModal(src: string, alt: string) {
+    this.selectedImage = { src, alt };
+    // Prevent body scroll when modal is open
+    document.body.style.overflow = 'hidden';
+  }
+
+  closeImageModal() {
+    this.selectedImage = null;
+    // Restore body scroll
+    document.body.style.overflow = 'auto';
   }
 
   // Skip to specific person's list

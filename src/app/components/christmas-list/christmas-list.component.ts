@@ -32,6 +32,7 @@ export class ChristmasListComponent implements OnInit {
   uploading = false;
   userEmail = '';
   fetchUrl = '';
+  selectedImage: { src: string; alt: string } | null = null;
 
   constructor(
     private christmasListService: ChristmasListService,
@@ -124,6 +125,18 @@ export class ChristmasListComponent implements OnInit {
   onImageError(event: any) {
     // Hide the image if it fails to load
     event.target.style.display = 'none';
+  }
+
+  openImageModal(src: string, alt: string) {
+    this.selectedImage = { src, alt };
+    // Prevent body scroll when modal is open
+    document.body.style.overflow = 'hidden';
+  }
+
+  closeImageModal() {
+    this.selectedImage = null;
+    // Restore body scroll
+    document.body.style.overflow = 'auto';
   }
 
 

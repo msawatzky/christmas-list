@@ -194,7 +194,7 @@
         
         <!-- Column 1: Image -->
         <div *ngIf="item.picture" class="item-picture">
-          <img [src]="item.picture" [alt]="item.name" class="item-image" (error)="onImageError($event)">
+          <img [src]="item.picture" [alt]="item.name" class="item-image" (error)="onImageError($event)" (click)="openImageModal(item.picture, item.name)">
         </div>
         
         <!-- Column 2: Content -->
@@ -243,5 +243,14 @@
         <p>🎁 Your wish list is empty! Add some items to get started.</p>
       </div>
     </ng-template>
+  </div>
+
+  <!-- Image Modal -->
+  <div *ngIf="selectedImage" class="image-modal" (click)="closeImageModal()">
+    <div class="image-modal-content" (click)="$event.stopPropagation()">
+      <button class="image-modal-close" (click)="closeImageModal()">&times;</button>
+      <img [src]="selectedImage.src" [alt]="selectedImage.alt" class="image-modal-img">
+      <div class="image-modal-caption">{{ selectedImage.alt }}</div>
+    </div>
   </div>
 </div>
