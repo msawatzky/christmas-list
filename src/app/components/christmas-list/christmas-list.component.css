@@ -168,6 +168,7 @@ h1 {
 .add-form {
   display: flex;
   flex-direction: column;
+  margin-top: 1rem;
   gap: 4px;
 }
 
@@ -747,3 +748,66 @@ textarea.form-control {
         max-height: 150px;
       }
     }
+
+/* Priority Styling */
+.priority-display {
+  display: flex;
+  align-items: center;
+  margin-bottom: 0.5rem;
+}
+
+.priority-number {
+  background: #007bff;
+  color: white;
+  padding: 0.25rem 0.5rem;
+  border-radius: 12px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  min-width: 2rem;
+  text-align: center;
+}
+
+.priority-controls {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  margin-right: 0.5rem;
+}
+
+.btn-priority {
+  background: #f8f9fa;
+  border: 1px solid #dee2e6;
+  color: #495057;
+  padding: 0.25rem 0.5rem;
+  border-radius: 4px;
+  font-size: 0.875rem;
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.2s;
+  min-width: 2rem;
+  height: 1.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.btn-priority:hover:not(:disabled) {
+  background: #e9ecef;
+  border-color: #adb5bd;
+  color: #007bff;
+}
+
+.btn-priority:disabled {
+  background: #f8f9fa;
+  color: #6c757d;
+  cursor: not-allowed;
+  opacity: 0.6;
+}
+
+@media (max-width: 768px) {
+  .priority-controls {
+    flex-direction: row;
+    margin-right: 0;
+    margin-bottom: 0.5rem;
+  }
+}

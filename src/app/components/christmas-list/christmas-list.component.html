@@ -28,6 +28,7 @@
     <h3>{{ editingItem ? 'Edit Item' : 'Add New Item' }}</h3>
     <form (ngSubmit)="editingItem ? saveEdit() : addItem()" #itemForm="ngForm" class="add-form">
       <!-- Fetch Product Info Section - Prominent at the top -->
+      <!--
       <div class="fetch-section">
         <div class="form-group">
           <label for="fetchUrl">Product URL for Auto-Fill</label>
@@ -51,10 +52,9 @@
           <div class="fetch-hint">Paste a product URL and click "Auto-Fill" to populate the form automatically.</div>
         </div>
       </div>
+    -->
 
       <!-- Manual Entry Section -->
-      <div class="manual-entry-section">
-        <h4>Or fill in manually:</h4>
         <div class="form-row">
           <div class="form-group">
             <label for="name">Name *</label>
@@ -78,6 +78,24 @@
               (ngModelChange)="editingItem ? editingItem.store = $event : newItem.store = $event"
               class="form-control"
               placeholder="Where can I find this?">
+          </div>
+        </div>
+        
+        <div class="form-row">
+          <div class="form-group">
+            <label for="priority">Priority</label>
+            <input 
+              type="number" 
+              id="priority" 
+              name="priority" 
+              [ngModel]="editingItem ? (editingItem.priority || 1) : newItem.priority"
+              (ngModelChange)="editingItem ? editingItem.priority = $event : newItem.priority = $event"
+              min="1" 
+              class="form-control"
+              placeholder="1">
+          </div>
+          <div class="form-group">
+            <!-- Empty div for spacing -->
           </div>
         </div>
         
@@ -166,7 +184,6 @@
             (change)="onFileSelected($event)" 
             style="display: none;">
         </div>
-      </div>
       
 
       
@@ -191,6 +208,9 @@
         
         <div class="item-header">
           <div class="item-title-section">
+            <div class="priority-display">
+              <span class="priority-number">#{{ item.priority || '?' }}</span>
+            </div>
             <h4 class="item-title">{{ item.name }}</h4>
             <div class="item-meta">
               <span *ngIf="item.store" class="store">{{ item.store }}</span>
@@ -198,6 +218,22 @@
             </div>
           </div>
           <div class="item-actions">
+            <div class="priority-controls">
+              <button 
+                (click)="changePriority(item.id!, 'up')" 
+                class="btn-priority"
+                title="Move up in priority"
+                [disabled]="loading">
+                ↑
+              </button>
+              <button 
+                (click)="changePriority(item.id!, 'down')" 
+                class="btn-priority"
+                title="Move down in priority"
+                [disabled]="loading">
+                ↓
+              </button>
+            </div>
             <button (click)="editItem(item)" class="btn-edit">✏️</button>
             <button (click)="deleteItem(item.id!)" class="btn-delete">×</button>
           </div>

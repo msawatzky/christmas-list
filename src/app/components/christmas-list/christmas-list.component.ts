@@ -24,7 +24,8 @@ export class ChristmasListComponent implements OnInit {
     picture: '',
     purchaseUrl: '',
     description: '',
-    purchased: false
+    purchased: false,
+    priority: 1
   };
   editingItem: ChristmasItem | null = null;
   loading = false;
@@ -69,7 +70,8 @@ export class ChristmasListComponent implements OnInit {
       picture: this.newItem.picture?.trim() || '',
       purchaseUrl: this.newItem.purchaseUrl?.trim() || '',
       description: this.newItem.description?.trim() || '',
-      purchased: false
+      purchased: false,
+      priority: this.newItem.priority || 1
     });
 
     if (result.success) {
@@ -80,7 +82,8 @@ export class ChristmasListComponent implements OnInit {
         picture: '',
         purchaseUrl: '',
         description: '',
-        purchased: false
+        purchased: false,
+        priority: 1
       };
     } else {
       console.error('Error adding item:', result.error);
@@ -130,8 +133,17 @@ export class ChristmasListComponent implements OnInit {
       picture: '',
       purchaseUrl: '',
       description: '',
-      purchased: false
+      purchased: false,
+      priority: 1
     };
+    
+    // Scroll to the edit item section
+    setTimeout(() => {
+      const editSection = document.querySelector('.add-item-section');
+      if (editSection) {
+        editSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }
+    }, 100);
   }
 
   cancelEdit() {
@@ -143,7 +155,8 @@ export class ChristmasListComponent implements OnInit {
       picture: '',
       purchaseUrl: '',
       description: '',
-      purchased: false
+      purchased: false,
+      priority: 1
     };
   }
 
@@ -169,7 +182,8 @@ export class ChristmasListComponent implements OnInit {
         picture: '',
         purchaseUrl: '',
         description: '',
-        purchased: false
+        purchased: false,
+        priority: 1
       };
     } else {
       console.error('Error updating item:', result.error);
@@ -273,5 +287,15 @@ export class ChristmasListComponent implements OnInit {
     if (fileInput) {
       fileInput.value = '';
     }
+  }
+
+  async changePriority(itemId: string, direction: 'up' | 'down') {
+    this.loading = true;
+    const result = await this.christmasListService.changePriority(itemId, direction);
+    if (!result.success) {
+      console.error('Error changing priority:', result.error);
+      alert('Error changing priority: ' + result.error);
+    }
+    this.loading = false;
   }
 }
