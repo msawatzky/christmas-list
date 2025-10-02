@@ -53,8 +53,7 @@
         <div class="items-grid">
           <div 
             *ngFor="let item of groupedItems[member.userId].items" 
-            class="item-card"
-            [class.purchased]="item.purchased">
+            class="item-card">
             
           <!-- Priority Badge -->
           <div class="priority-corner" *ngIf="item.priority">
@@ -78,19 +77,21 @@
                   🛒 Buy Now
                 </a>
               </div>
-              <div *ngIf="item.purchased && item.purchasedBy" class="purchased-by">
+              <!-- Purchase information temporarily hidden to prevent spoiling surprises -->
+              <!-- <div *ngIf="item.purchased && item.purchasedBy" class="purchased-by">
                 Purchased by: {{ item.purchasedBy }}
-              </div>
+              </div> -->
             </div>
             
             <!-- Column 3: Actions -->
             <div class="item-actions">
-              <button 
+              <!-- Purchase toggle temporarily disabled to prevent spoiling surprises -->
+              <!-- <button 
                 (click)="togglePurchased(item)" 
                 class="btn-toggle"
                 [class.purchased]="item.purchased">
                 {{ item.purchased ? '✓' : '○' }}
-              </button>
+              </button> -->
             </div>
 
           </div>
