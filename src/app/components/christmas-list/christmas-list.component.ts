@@ -71,12 +71,14 @@ export class ChristmasListComponent implements OnInit {
   switchToList(userId: string) {
     this.christmasListService.switchToUser(userId);
     this.currentListName = this.christmasListService.getCurrentUserName();
+    this.editingItem = null; // Clear any editing state
     this.loadItems(); // Reload items for the new user
   }
 
   switchToMyList() {
     this.christmasListService.switchToUser(''); // Empty string means switch back to logged-in user
     this.currentListName = this.christmasListService.getCurrentUserName();
+    this.editingItem = null; // Clear any editing state
     this.loadItems(); // Reload items for the logged-in user
   }
 

@@ -19,30 +19,38 @@ export class AuthService {
   // Hard-coded family members with priorities (lower number = higher priority)
   // Kids are managed by parents, so they don't appear in login
   private familyMembers: FamilyUser[] = [
-    { id: 'grandpa', name: 'Grandpa', avatar: '👴', priority: 1 },
-    { id: 'mamere', name: 'MeMere', avatar: '👵', priority: 2 },
-    { id: 'matt', name: 'Matt', avatar: '👨', priority: 3, canManageLists: ['nixon', 'theo', 'baby-sawatzky'] },
-    { id: 'nicole', name: 'Nicole', avatar: '👩', priority: 4, canManageLists: ['nixon', 'theo', 'baby-sawatzky'] },
-    { id: 'kristen', name: 'Kristen', avatar: '👩', priority: 5, canManageLists: ['baby-minarz'] },
-    { id: 'garett', name: 'Garett', avatar: '👨', priority: 6, canManageLists: ['baby-minarz'] },
-    { id: 'nick', name: 'Nick', avatar: '👨', priority: 7 },
-    { id: 'shaley', name: 'Shaley', avatar: '👩', priority: 8 }
+    { id: 'grandpa', name: 'Grandpa', avatar: '👴', priority: 1, canManageLists: ['grandpa-mamere'] },
+    { id: 'mamere', name: 'MeMere', avatar: '👵', priority: 2, canManageLists: ['grandpa-mamere'] },
+    { id: 'matt', name: 'Matt', avatar: '👨', priority: 3, canManageLists: ['nixon', 'theo', 'baby-sawatzky', 'matt-nicole', 'nixon-theo'] },
+    { id: 'nicole', name: 'Nicole', avatar: '👩', priority: 4, canManageLists: ['nixon', 'theo', 'baby-sawatzky', 'matt-nicole', 'nixon-theo'] },
+    { id: 'kristen', name: 'Kristen', avatar: '👩', priority: 5, canManageLists: ['baby-minarz', 'kristen-garett'] },
+    { id: 'garett', name: 'Garett', avatar: '👨', priority: 6, canManageLists: ['baby-minarz', 'kristen-garett'] },
+    { id: 'nick', name: 'Nick', avatar: '👨', priority: 7, canManageLists: ['nick-shaley'] },
+    { id: 'shaley', name: 'Shaley', avatar: '👩', priority: 8, canManageLists: ['nick-shaley'] }
   ];
 
-  // All family members including kids (for internal use and view-others)
+  // All family members including kids and shared lists (for internal use and view-others)
+  // Individual lists first, then shared/couple lists
   private allFamilyMembers: FamilyUser[] = [
-    { id: 'grandpa', name: 'Grandpa', avatar: '👴', priority: 1 },
-    { id: 'mamere', name: 'MeMere', avatar: '👵', priority: 2 },
-    { id: 'matt', name: 'Matt', avatar: '👨', priority: 3, canManageLists: ['nixon', 'theo', 'baby-sawatzky'] },
-    { id: 'nicole', name: 'Nicole', avatar: '👩', priority: 4, canManageLists: ['nixon', 'theo', 'baby-sawatzky'] },
+    // Individual family members
+    { id: 'grandpa', name: 'Grandpa', avatar: '👴', priority: 1, canManageLists: ['grandpa-mamere'] },
+    { id: 'mamere', name: 'MeMere', avatar: '👵', priority: 2, canManageLists: ['grandpa-mamere'] },
+    { id: 'matt', name: 'Matt', avatar: '👨', priority: 3, canManageLists: ['nixon', 'theo', 'baby-sawatzky', 'matt-nicole', 'nixon-theo'] },
+    { id: 'nicole', name: 'Nicole', avatar: '👩', priority: 4, canManageLists: ['nixon', 'theo', 'baby-sawatzky', 'matt-nicole', 'nixon-theo'] },
     { id: 'nixon', name: 'Nixon', avatar: '👦', priority: 5 },
     { id: 'theo', name: 'Theo', avatar: '👦', priority: 6 },
     { id: 'baby-sawatzky', name: 'Baby Sawatzky', avatar: '👶', priority: 7 },
-    { id: 'kristen', name: 'Kristen', avatar: '👩', priority: 8, canManageLists: ['baby-minarz'] },
-    { id: 'garett', name: 'Garett', avatar: '👨', priority: 9, canManageLists: ['baby-minarz'] },
+    { id: 'kristen', name: 'Kristen', avatar: '👩', priority: 8, canManageLists: ['baby-minarz', 'kristen-garett'] },
+    { id: 'garett', name: 'Garett', avatar: '👨', priority: 9, canManageLists: ['baby-minarz', 'kristen-garett'] },
     { id: 'baby-minarz', name: 'Baby Minarz', avatar: '👶', priority: 10 },
-    { id: 'nick', name: 'Nick', avatar: '👨', priority: 11 },
-    { id: 'shaley', name: 'Shaley', avatar: '👩', priority: 12 }
+    { id: 'nick', name: 'Nick', avatar: '👨', priority: 11, canManageLists: ['nick-shaley'] },
+    { id: 'shaley', name: 'Shaley', avatar: '👩', priority: 12, canManageLists: ['nick-shaley'] },
+    // Shared/couple lists (appear after individual lists)
+    { id: 'grandpa-mamere', name: 'Grandpa & MeMere', avatar: '👴👵', priority: 13 },
+    { id: 'matt-nicole', name: 'Matt & Nicole', avatar: '👫', priority: 14 },
+    { id: 'kristen-garett', name: 'Kristen & Garett', avatar: '👫', priority: 15 },
+    { id: 'nick-shaley', name: 'Nick & Shaley', avatar: '👫', priority: 16 },
+    { id: 'nixon-theo', name: 'Nixon & Theo', avatar: '👦👦', priority: 17 }
   ];
 
   constructor() {
