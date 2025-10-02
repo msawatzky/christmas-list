@@ -19,6 +19,30 @@
     </div>
   </header>
 
+  <!-- List Switcher -->
+  <div *ngIf="showListSwitcher" class="list-switcher">
+    <div class="current-list">
+      <span class="list-label">Managing: <strong>{{ currentListName }}</strong></span>
+    </div>
+    <div class="list-options">
+      <button 
+        *ngIf="christmasListService.isManagingOtherUser()" 
+        (click)="switchToMyList()" 
+        class="btn-switch-list">
+        Switch to My List
+      </button>
+      <div class="manageable-lists">
+        <button 
+          *ngFor="let list of manageableLists" 
+          (click)="switchToList(list.id)" 
+          class="btn-switch-list"
+          [class.active]="christmasListService.isManagingOtherUser() && christmasListService.getCurrentUserName() === list.name">
+          {{ list.avatar }} {{ list.name }}
+        </button>
+      </div>
+    </div>
+  </div>
+
   <div class="navigation-buttons">
     <button (click)="goToChoice()" class="btn-nav">← Back to Menu</button>
     <button (click)="goToViewOthers()" class="btn-nav">View Others' Lists</button>

@@ -959,3 +959,80 @@ textarea.form-control {
     font-size: 0.9rem;
   }
 }
+
+/* List Switcher Styles */
+.list-switcher {
+  background: linear-gradient(135deg, #f8f9fa, #e9ecef);
+  border: 2px solid #dee2e6;
+  border-radius: 12px;
+  padding: 15px;
+  margin-bottom: 20px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.current-list {
+  margin-bottom: 10px;
+}
+
+.list-label {
+  font-size: 1.1rem;
+  color: #495057;
+  font-weight: 500;
+}
+
+.list-options {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  align-items: center;
+}
+
+.btn-switch-list {
+  background: linear-gradient(135deg, #007bff, #0056b3);
+  color: white;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 0.9rem;
+  font-weight: 500;
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 4px rgba(0, 123, 255, 0.3);
+}
+
+.btn-switch-list:hover {
+  background: linear-gradient(135deg, #0056b3, #004085);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 8px rgba(0, 123, 255, 0.4);
+}
+
+.btn-switch-list.active {
+  background: linear-gradient(135deg, #28a745, #1e7e34);
+  box-shadow: 0 2px 6px rgba(40, 167, 69, 0.4);
+}
+
+.manageable-lists {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+@media (max-width: 768px) {
+  .list-switcher {
+    padding: 12px;
+  }
+  
+  .list-options {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  
+  .btn-switch-list {
+    width: 100%;
+    text-align: center;
+  }
+  
+  .manageable-lists {
+    width: 100%;
+  }
+}

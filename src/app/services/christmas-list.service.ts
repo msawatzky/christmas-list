@@ -26,22 +26,52 @@ export interface ChristmasItem {
 })
 export class ChristmasListService {
   private readonly COLLECTION_NAME = 'christmas-items';
+  private currentManagingUserId: string | null = null; // Track which user's list we're managing
 
   constructor(
     private firestore: Firestore,
     private authService: AuthService
   ) {}
 
-  getItems(): Observable<ChristmasItem[]> {
+  // Method to switch which user's list we're managing
+  switchToUser(userId: string): void {
+    this.currentManagingUserId = userId || null;
+  }
+
+  // Method to get the current user ID (either managing or logged in user)
+  private getCurrentUserId(): string {
+    if (this.currentManagingUserId) {
+      return this.currentManagingUserId;
+    }
     const user = this.authService.getCurrentUser();
-    if (!user) {
+    return user?.id || '';
+  }
+
+  // Method to get the current user name (either managing or logged in user)
+  getCurrentUserName(): string {
+    if (this.currentManagingUserId) {
+      const managingUser = this.authService.getFamilyMemberById(this.currentManagingUserId);
+      return managingUser?.name || 'Unknown';
+    }
+    const user = this.authService.getCurrentUser();
+    return user?.name || 'Unknown';
+  }
+
+  // Method to check if we're managing someone else's list
+  isManagingOtherUser(): boolean {
+    return this.currentManagingUserId !== null;
+  }
+
+  getItems(): Observable<ChristmasItem[]> {
+    const userId = this.getCurrentUserId();
+    if (!userId) {
       return new Observable(subscriber => subscriber.next([]));
     }
 
     const itemsRef = collection(this.firestore, this.COLLECTION_NAME);
     const q = query(
       itemsRef,
-      where('userId', '==', user.id),
+      where('userId', '==', userId),
       orderBy('createdAt', 'desc')
     );
     
@@ -64,8 +94,10 @@ export class ChristmasListService {
 
   async addItem(item: Omit<ChristmasItem, 'id' | 'userId' | 'userName' | 'createdAt' | 'updatedAt'>): Promise<{ success: boolean; error?: string }> {
     try {
-      const user = this.authService.getCurrentUser();
-      if (!user) {
+      const userId = this.getCurrentUserId();
+      const userName = this.getCurrentUserName();
+      
+      if (!userId) {
         return { success: false, error: 'User not authenticated' };
       }
 
@@ -76,8 +108,8 @@ export class ChristmasListService {
       const newItem: Omit<ChristmasItem, 'id'> = {
         ...item,
         priority: item.priority || (maxPriority + 1),
-        userId: user.id,
-        userName: user.name,
+        userId: userId,
+        userName: userName,
         createdAt: new Date(),
         updatedAt: new Date()
       };

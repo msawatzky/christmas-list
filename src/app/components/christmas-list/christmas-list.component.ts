@@ -28,6 +28,11 @@ export class ChristmasListComponent implements OnInit {
   };
   editingItem: ChristmasItem | null = null;
   loading = false;
+  
+  // List switcher properties
+  manageableLists: any[] = [];
+  showListSwitcher = false;
+  currentListName = '';
   scraping = false;
   uploading = false;
   userEmail = '';
@@ -35,7 +40,7 @@ export class ChristmasListComponent implements OnInit {
   selectedImage: { src: string; alt: string } | null = null;
 
   constructor(
-    private christmasListService: ChristmasListService,
+    public christmasListService: ChristmasListService,
     private authService: AuthService,
     private productScraperService: ProductScraperService,
     private cloudinaryService: CloudinaryService,
@@ -47,10 +52,32 @@ export class ChristmasListComponent implements OnInit {
     this.authService.currentUser$.subscribe(user => {
       if (user) {
         this.userEmail = user.name;
+        this.initializeListSwitcher();
       } else {
         this.router.navigate(['/login']);
       }
     });
+  }
+
+  initializeListSwitcher() {
+    // Check if user has manageable lists
+    this.manageableLists = this.authService.getManageableLists();
+    this.showListSwitcher = this.authService.hasManageableLists();
+    
+    // Set current list name
+    this.currentListName = this.christmasListService.getCurrentUserName();
+  }
+
+  switchToList(userId: string) {
+    this.christmasListService.switchToUser(userId);
+    this.currentListName = this.christmasListService.getCurrentUserName();
+    this.loadItems(); // Reload items for the new user
+  }
+
+  switchToMyList() {
+    this.christmasListService.switchToUser(''); // Empty string means switch back to logged-in user
+    this.currentListName = this.christmasListService.getCurrentUserName();
+    this.loadItems(); // Reload items for the logged-in user
   }
 
   loadItems() {
