@@ -189,6 +189,22 @@
   height: auto;
   min-height: 120px;
   align-items: center;
+  position: relative;
+}
+
+.priority-corner {
+  position: absolute;
+  top: 8px;
+  left: 8px;
+  background: #007bff;
+  color: white;
+  font-size: 0.7rem;
+  font-weight: bold;
+  padding: 3px 6px;
+  border-radius: 8px;
+  z-index: 10;
+  min-width: 20px;
+  text-align: center;
 }
 
 .item-card:hover {
@@ -417,6 +433,14 @@
   
   .user-list-section {
     scroll-margin-top: 100px; /* Smaller offset for mobile */
+  }
+  
+  .priority-corner {
+    top: 6px;
+    left: 6px;
+    font-size: 0.6rem;
+    padding: 2px 4px;
+    min-width: 18px;
   }
 }
 

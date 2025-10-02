@@ -47,11 +47,17 @@ export class ChristmasListService {
     
     return collectionData(q, { idField: 'id' }).pipe(
       map((items: any[]) => {
-        // Add default priority to items that don't have it and sort by priority
-        return items.map((item, index) => ({
-          ...item,
-          priority: item.priority || (index + 1)
-        })).sort((a, b) => (a.priority || 0) - (b.priority || 0));
+        // Assign priorities to items that don't have them (per user)
+        let nextPriority = 1;
+        const itemsWithPriorities = items.map(item => {
+          if (!item.priority) {
+            return { ...item, priority: nextPriority++ };
+          }
+          return item;
+        });
+        
+        // Sort by priority
+        return itemsWithPriorities.sort((a, b) => (a.priority || 0) - (b.priority || 0));
       })
     ) as Observable<ChristmasItem[]>;
   }
@@ -63,9 +69,13 @@ export class ChristmasListService {
         return { success: false, error: 'User not authenticated' };
       }
 
+      // Get the next available priority for this user
+      const userItems = await this.getItems().pipe(take(1)).toPromise() || [];
+      const maxPriority = userItems.length > 0 ? Math.max(...userItems.map(i => i.priority || 0)) : 0;
+      
       const newItem: Omit<ChristmasItem, 'id'> = {
         ...item,
-        priority: item.priority || 1,
+        priority: item.priority || (maxPriority + 1),
         userId: user.id,
         userName: user.name,
         createdAt: new Date(),
@@ -115,11 +125,35 @@ export class ChristmasListService {
     
     return collectionData(q, { idField: 'id' }).pipe(
       map((items: any[]) => {
-        // Add default priority to items that don't have it and sort by priority
-        return items.map((item, index) => ({
-          ...item,
-          priority: item.priority || (index + 1)
-        })).sort((a, b) => (a.priority || 0) - (b.priority || 0));
+        // Group items by user and assign priorities per user
+        const userGroups: { [userId: string]: ChristmasItem[] } = {};
+        
+        // Group items by userId
+        items.forEach(item => {
+          if (!userGroups[item.userId]) {
+            userGroups[item.userId] = [];
+          }
+          userGroups[item.userId].push(item);
+        });
+        
+        // Assign priorities per user
+        const allItemsWithPriorities: ChristmasItem[] = [];
+        Object.keys(userGroups).forEach(userId => {
+          const userItems = userGroups[userId];
+          let nextPriority = 1;
+          
+          const userItemsWithPriorities = userItems.map(item => {
+            if (!item.priority) {
+              return { ...item, priority: nextPriority++ };
+            }
+            return item;
+          });
+          
+          allItemsWithPriorities.push(...userItemsWithPriorities);
+        });
+        
+        // Sort by priority
+        return allItemsWithPriorities.sort((a, b) => (a.priority || 0) - (b.priority || 0));
       })
     ) as Observable<ChristmasItem[]>;
   }

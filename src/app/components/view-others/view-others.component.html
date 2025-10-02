@@ -56,6 +56,11 @@
             class="item-card"
             [class.purchased]="item.purchased">
             
+          <!-- Priority Badge -->
+          <div class="priority-corner" *ngIf="item.priority">
+            #{{ item.priority }}
+          </div>
+            
           <!-- Column 1: Image -->
           <div *ngIf="item.picture" class="item-picture">
             <img [src]="item.picture" [alt]="item.name" class="item-image" (error)="onImageError($event)" (click)="openImageModal(item.picture, item.name)">
