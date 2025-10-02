@@ -82,6 +82,24 @@ export class ViewOthersComponent implements OnInit, AfterViewInit, OnDestroy {
       }
       this.groupedItems[item.userId].items.push(item);
     });
+
+    // Sort items within each user's list by priority
+    Object.keys(this.groupedItems).forEach(userId => {
+      this.groupedItems[userId].items.sort((a, b) => (a.priority || 0) - (b.priority || 0));
+    });
+  }
+
+  // Get ordered list of family members for display
+  getOrderedFamilyMembers(): { userId: string; userName: string; itemCount: number; priority: number }[] {
+    return Object.keys(this.groupedItems).map(userId => {
+      const familyMember = this.authService.getFamilyMemberById(userId);
+      return {
+        userId,
+        userName: this.groupedItems[userId].userName,
+        itemCount: this.groupedItems[userId].items.length,
+        priority: familyMember?.priority || 999 // Default high priority for unknown users
+      };
+    }).sort((a, b) => a.priority - b.priority);
   }
 
   async togglePurchased(item: ChristmasItem) {
@@ -156,11 +174,11 @@ export class ViewOthersComponent implements OnInit, AfterViewInit, OnDestroy {
 
   // Get list of available people for skip-to dropdown
   getPeopleList(): { userId: string; userName: string; itemCount: number }[] {
-    return Object.keys(this.groupedItems).map(userId => ({
-      userId,
-      userName: this.groupedItems[userId].userName,
-      itemCount: this.groupedItems[userId].items.length
-    })).sort((a, b) => a.userName.localeCompare(b.userName));
+    return this.getOrderedFamilyMembers().map(member => ({
+      userId: member.userId,
+      userName: member.userName,
+      itemCount: member.itemCount
+    }));
   }
 
   private setupStickyObserver() {

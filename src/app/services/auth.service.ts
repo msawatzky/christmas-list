@@ -5,6 +5,7 @@ export interface FamilyUser {
   id: string;
   name: string;
   avatar?: string;
+  priority?: number;
 }
 
 @Injectable({
@@ -14,20 +15,20 @@ export class AuthService {
   private currentUserSubject = new BehaviorSubject<FamilyUser | null>(null);
   public currentUser$ = this.currentUserSubject.asObservable();
 
-  // Hard-coded family members
+  // Hard-coded family members with priorities (lower number = higher priority)
   private familyMembers: FamilyUser[] = [
-    { id: 'grandpa', name: 'Grandpa', avatar: '👴' },
-    { id: 'mamere', name: 'MeMere', avatar: '👵' },
-    { id: 'matt', name: 'Matt', avatar: '👨' },
-    { id: 'nicole', name: 'Nicole', avatar: '👩' },
-    { id: 'nixon', name: 'Nixon', avatar: '👦' },
-    { id: 'theo', name: 'Theo', avatar: '👦' },
-    { id: 'baby-sawatzky', name: 'Baby Sawatzky', avatar: '👶' },
-    { id: 'kristen', name: 'Kristen', avatar: '👩' },
-    { id: 'garett', name: 'Garett', avatar: '👨' },
-    { id: 'baby-minarz', name: 'Baby Minarz', avatar: '👶' },
-    { id: 'nick', name: 'Nick', avatar: '👨' },
-    { id: 'shaley', name: 'Shaley', avatar: '👩' }
+    { id: 'grandpa', name: 'Grandpa', avatar: '👴', priority: 1 },
+    { id: 'mamere', name: 'MeMere', avatar: '👵', priority: 2 },
+    { id: 'matt', name: 'Matt', avatar: '👨', priority: 3 },
+    { id: 'nicole', name: 'Nicole', avatar: '👩', priority: 4 },
+    { id: 'nixon', name: 'Nixon', avatar: '👦', priority: 5 },
+    { id: 'theo', name: 'Theo', avatar: '👦', priority: 6 },
+    { id: 'baby-sawatzky', name: 'Baby Sawatzky', avatar: '👶', priority: 7 },
+    { id: 'kristen', name: 'Kristen', avatar: '👩', priority: 8 },
+    { id: 'garett', name: 'Garett', avatar: '👨', priority: 9 },
+    { id: 'baby-minarz', name: 'Baby Minarz', avatar: '👶', priority: 10 },
+    { id: 'nick', name: 'Nick', avatar: '👨', priority: 11 },
+    { id: 'shaley', name: 'Shaley', avatar: '👩', priority: 12 }
   ];
 
   constructor() {
@@ -40,6 +41,10 @@ export class AuthService {
 
   getFamilyMembers(): FamilyUser[] {
     return this.familyMembers;
+  }
+
+  getFamilyMemberById(id: string): FamilyUser | undefined {
+    return this.familyMembers.find(member => member.id === id);
   }
 
   signIn(userId: string): { success: boolean; user?: FamilyUser; error?: string } {

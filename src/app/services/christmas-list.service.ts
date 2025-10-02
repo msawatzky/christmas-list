@@ -113,7 +113,15 @@ export class ChristmasListService {
       orderBy('createdAt', 'desc')
     );
     
-    return collectionData(q, { idField: 'id' }) as Observable<ChristmasItem[]>;
+    return collectionData(q, { idField: 'id' }).pipe(
+      map((items: any[]) => {
+        // Add default priority to items that don't have it and sort by priority
+        return items.map((item, index) => ({
+          ...item,
+          priority: item.priority || (index + 1)
+        })).sort((a, b) => (a.priority || 0) - (b.priority || 0));
+      })
+    ) as Observable<ChristmasItem[]>;
   }
 
   async changePriority(itemId: string, direction: 'up' | 'down'): Promise<{ success: boolean; error?: string }> {
