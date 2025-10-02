@@ -66,14 +66,9 @@ export class ViewOthersComponent implements OnInit, AfterViewInit, OnDestroy {
 
   groupItemsByUser() {
     this.groupedItems = {};
-    const currentUser = this.authService.getCurrentUser();
     
     this.allItems.forEach(item => {
-      // Skip items belonging to the current user
-      if (item.userId === currentUser?.id) {
-        return;
-      }
-      
+      // Include all items, including current user's items
       if (!this.groupedItems[item.userId]) {
         this.groupedItems[item.userId] = {
           userName: item.userName || 'Unknown User',
